@@ -433,7 +433,6 @@
       "keywords": [
         "흥을 불러오는",
         "사랑에 빠졌을 때",
-        "누군가를 좋아한다면",
         "신나게"
       ],
       "id": "kO-Iy7lVFBc"
@@ -1440,6 +1439,54 @@
       "cover": "assets/img/album/td.jpg",
       "keywords": ["감성을 타고 싶다면", "사랑에 빠졌을 때", "벅차오르는"],
       "id": "94IwuqEXN-w"
+    },
+    {
+      "title": "Toxic Love",
+      "year": 2026,
+      "album": "Unpiltered",
+      "cover": "assets/img/album/up.webp",
+      "keywords": ["흥을 불러오는", "사랑에 빠졌을 때", "신나게"],
+      "id": "FE_98URWOUY"
+    },
+    {
+      "title": "사랑병동",
+      "year": 2026,
+      "album": "Unpiltered",
+      "cover": "assets/img/album/up.webp",
+      "keywords": ["흥을 불러오는", "이별 후", "마라맛"],
+      "id": "FE_98URWOUY"
+    },
+    {
+      "title": "Up All Night",
+      "year": 2026,
+      "album": "Unpiltered",
+      "cover": "assets/img/album/up.webp",
+      "keywords": ["흥을 불러오는", "사랑에 빠졌을 때", "신나게"],
+      "id": "NSTSMHnIlWs"
+    },
+    {
+      "title": "Step by Step",
+      "year": 2026,
+      "album": "Unpiltered",
+      "cover": "assets/img/album/up.webp",
+      "keywords": ["흥을 불러오는", "힘을 얻기", "신나게"],
+      "id": "U42SzWURiWQ"
+    },
+    {
+      "title": "백만송이는 아니지만",
+      "year": 2026,
+      "album": "Unpiltered",
+      "cover": "assets/img/album/up.webp",
+      "keywords": ["흥을 불러오는", "누군가를 좋아한다면", "신나게"],
+      "id": "0jseNNjcf8I"
+    },
+    {
+      "title": "피아노",
+      "year": 2026,
+      "album": "Unpiltered",
+      "cover": "assets/img/album/up.webp",
+      "keywords": ["감성을 타고 싶다면", "잔잔한/슬픈", "이별 후"],
+      "id": "-a6FFdGYOas"
     }
   ]
 }
