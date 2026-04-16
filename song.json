@@ -8,7 +8,6 @@
       "keywords": [
         "흥을 불러오는",
         "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
         "신나게"
       ],
       "id": "vnS_jn2uibs"
@@ -21,7 +20,6 @@
       "keywords": [
         "감성을 타고 싶다면",
         "이별 후",
-        "잔잔한/슬픈",
         "벅차오르는"
       ],
       "id": "BS7tz2rAOSA"
@@ -31,7 +29,7 @@
       "year": 2024,
       "album": "Fourever",
       "cover": "assets/img/album/f.png",
-      "keywords": ["감성을 타고 싶다면", "첫눈에 반했을 때", "벅차오르는"],
+      "keywords": ["흥을 불러오는", "사랑에 빠졌을 때", "벅차오르는"],
       "id": "RowlrvmyFEk"
     },
     {
@@ -47,7 +45,7 @@
       "year": 2024,
       "album": "Fourevern",
       "cover": "assets/img/album/f.png",
-      "keywords": ["흥을 불러오는", "신나게"],
+      "keywords": ["흥을 불러오는", "신나게", "힘을 얻기"],
       "id": "2o1zdX72400"
     },
     {
@@ -59,11 +57,35 @@
       "id": "x3sFsHrUyLQ"
     },
     {
+      "title": "버릇이 됐어",
+      "year": 2015,
+      "album": "The Day",
+      "cover": "assets/img/album/td.png",
+      "keywords": ["흥을 불러오는", "이별 후", "신나게"],
+      "id": "w9m-nIzmS3Y"
+    },
+    {
+      "title": "태양처럼",
+      "year": 2015,
+      "album": "The Day",
+      "cover": "assets/img/album/td.png",
+      "keywords": ["흥을 불러오는", "사랑에 빠졌을 때", "신나게"],
+      "id": "h7cWseDQ4to"
+    },
+    {
+      "title": "Colors",
+      "year": 2015,
+      "album": "The Day",
+      "cover": "assets/img/album/td.png",
+      "keywords": ["감성을 타고 싶다면", "힘을 얻기", "신나게"],
+      "id": "9s28dJXxssA"
+    },
+    {
       "title": "Zombie",
       "year": 2019,
       "album": "The Book of Us : The Demon",
       "cover": "assets/img/album/tbud.png",
-      "keywords": ["감성을 타고 싶다면", "이별 후", "잔잔한/슬픈"],
+      "keywords": ["감성을 타고 싶다면", "잔잔한/슬픈", "힘을 얻기"],
       "id": "k8gx-C7GCGU"
     },
     {
@@ -71,8 +93,16 @@
       "year": 2016,
       "album": "DAYDREAM",
       "cover": "assets/img/album/dd.png",
-      "keywords": ["감성을 타고 싶다면", "이별 후", "벅차오르는"],
+      "keywords": ["감성을 타고 싶다면", "권태기를 극복하기", "벅차오르는"],
       "id": "1-1TGNmQqZA"
+    },
+    {
+      "title": "Blood",
+      "year": 2016,
+      "album": "DAYDREAM",
+      "cover": "assets/img/album/dd.png",
+      "keywords": ["흥을 불러오는", "권태기를 극복하기", "마라맛"],
+      "id": "MroqrprFK98"
     },
     {
       "title": "좋아합니다",
@@ -81,8 +111,7 @@
       "cover": "assets/img/album/mr.png",
       "keywords": [
         "감성을 타고 싶다면",
-        "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
+        "누군가를 좋아한다면",
         "벅차오르는"
       ],
       "id": "jAI_Jo-JtPQ"
@@ -94,6 +123,22 @@
       "cover": "assets/img/album/ruyp.png",
       "keywords": ["흥을 불러오는", "이별 후", "신나게"],
       "id": "1nk5O__ALI8"
+    },
+    {
+      "title": "두통",
+      "year": 2018,
+      "album": "Remember Us : Youth Part 2",
+      "cover": "assets/img/album/ruyp.png",
+      "keywords": ["흥을 불러오는", "권태기를 극복하기", "마라맛"],
+      "id": "3mz4C6fXRt0"
+    },
+    {
+      "title": "121U",
+      "year": 2018,
+      "album": "Remember Us : Youth Part 2",
+      "cover": "assets/img/album/ruyp.png",
+      "keywords": ["흥을 불러오는", "누군가를 좋아한다면", "마라맛"],
+      "id": "iE6WW-alPPM"
     },
     {
       "title": "Shoot Me",
@@ -110,9 +155,8 @@
       "cover": "assets/img/album/f.png",
       "keywords": [
         "감성을 타고 싶다면",
-        "권태기를 극복하기",
         "이별 후",
-        "잔잔한/슬픈"
+        "벅차오르는"
       ],
       "id": "1SUou1akUfM"
     },
@@ -129,15 +173,23 @@
       "year": 2019,
       "album": "The Book of Us : Entropy",
       "cover": "assets/img/album/tbue.png",
-      "keywords": ["흥을 불러오는", "첫눈에 반했을 때", "마라맛"],
+      "keywords": ["흥을 불러오는", "누군가를 좋아한다면", "사랑에 빠졌을 때", "마라맛"],
       "id": "mrIWwRZd7nw"
+    },
+    {
+      "title": "EMERGENCY",
+      "year": 2019,
+      "album": "The Book of Us : Entropy",
+      "cover": "assets/img/album/tbue.png",
+      "keywords": ["흥을 불러오는", "신나게"],
+      "id": "zOEng_czoi0"
     },
     {
       "title": "어쩌다보니",
       "year": 2018,
       "album": "Shoot Me : Youth Part 1",
       "cover": "assets/img/album/smyp.png",
-      "keywords": ["흥을 불러오는", "이별 후", "벅차오르는", "신나게"],
+      "keywords": ["흥을 불러오는", "이별 후", "신나게"],
       "id": "S8bQtknSNW0"
     },
     {
@@ -145,7 +197,7 @@
       "year": 2017,
       "album": "Every DAY6 September",
       "cover": "assets/img/album/eds.png",
-      "keywords": ["감성을 타고 싶다면", "이별 후", "잔잔한/슬픈"],
+      "keywords": ["감성을 타고 싶다면", "이별 후", "벅차오르는"],
       "id": "EwLMA5XYnKI"
     },
     {
@@ -153,7 +205,7 @@
       "year": 2024,
       "album": "Psycho, Loveholic",
       "cover": "assets/img/album/pl.png",
-      "keywords": ["흥을 불러오는", "이별 후", "신나게"],
+      "keywords": ["흥을 불러오는", "이별 후", "신나게", "벅차오르는"],
       "id": "Wk3CmGLfbuA"
     },
     {
@@ -161,7 +213,7 @@
       "year": 2024,
       "album": "Fourever",
       "cover": "assets/img/album/f.png",
-      "keywords": ["감성을 타고 싶다면", "첫눈에 반했을 때", "잔잔한/슬픈"],
+      "keywords": ["감성을 타고 싶다면", "누군가를 좋아한다면", "잔잔한/슬픈"],
       "id": "0JC4cm2fXsc"
     },
     {
@@ -177,7 +229,7 @@
       "year": 2017,
       "album": "Every DAY6 April",
       "cover": "assets/img/album/da.png",
-      "keywords": ["흥을 불러오는", "첫눈에 반했을 때", "신나게"],
+      "keywords": ["흥을 불러오는", "누군가를 좋아한다면", "신나게"],
       "id": "ZmHQbzbM8pI"
     },
     {
@@ -185,7 +237,7 @@
       "year": 2024,
       "album": "Fourever",
       "cover": "assets/img/album/f.png",
-      "keywords": ["흥을 불러오는", "이별 후", "권태기를 극복하기", "마라맛"],
+      "keywords": ["흥을 불러오는", "이별 후", "마라맛"],
       "id": "Kf6bF-69JF0"
     },
     {
@@ -213,6 +265,14 @@
       "id": "g4V36AfI4Ng"
     },
     {
+      "title": "오늘은 내게",
+      "year": 2017,
+      "album": "SUNRISE",
+      "cover": "assets/img/album/sr.png",
+      "keywords": ["흥을 불러오는", "누군가를 좋아한다면", "신나게"],
+      "id": "v13D8TCmvBQ"
+    },
+    {
       "title": "그렇더라고요",
       "year": 2017,
       "album": "Every DAY6 October",
@@ -220,10 +280,21 @@
       "keywords": [
         "감성을 타고 싶다면",
         "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
+        "누군가를 좋아한다면",
         "잔잔한/슬픈"
       ],
       "id": "77CTxoRmr-w"
+    },
+    {
+      "title": "누군가 필요해",
+      "year": 2017,
+      "album": "Every DAY6 October",
+      "cover": "assets/img/album/edo.png",
+      "keywords": [
+        "감성을 타고 싶다면",
+        "잔잔한/슬픈"
+      ],
+      "id": "bk-zK33vxWA"
     },
     {
       "title": "Healer",
@@ -233,7 +304,6 @@
       "keywords": [
         "흥을 불러오는",
         "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
         "신나게"
       ],
       "id": "HXEG0fqrViM"
@@ -243,7 +313,7 @@
       "year": 2017,
       "album": "Every DAY6 May",
       "cover": "assets/img/album/edma.png",
-      "keywords": ["흥을 불러오는", "신나게"],
+      "keywords": ["흥을 불러오는", "신나게", "힘을 얻기"],
       "id": "NAW0idSQ6Zs"
     },
     {
@@ -267,7 +337,7 @@
       "year": 2019,
       "album": "The Book of Us : Entropy",
       "cover": "assets/img/album/tbue.png",
-      "keywords": ["감성을 타고 싶다면", "이별 후", "잔잔한/슬픈"],
+      "keywords": ["감성을 타고 싶다면", "이별 후", "벅차오르는"],
       "id": "1I9QCUwga20"
     },
     {
@@ -279,6 +349,14 @@
       "id": "RKJvo6fAMmg"
     },
     {
+      "title": "1 to 10",
+      "year": 2020,
+      "album": "The Book of Us : The Demon",
+      "cover": "assets/img/album/tbud.png",
+      "keywords": ["흥을 불러오는", "사랑에 빠졌을 때", "마라맛"],
+      "id": "0an2t_97iCA"
+    },
+    {
       "title": "아 왜",
       "year": 2017,
       "album": "Every DAY6 January",
@@ -286,7 +364,6 @@
       "keywords": [
         "감성을 타고 싶다면",
         "권태기를 극복하기",
-        "벅차오르는",
         "마라맛"
       ],
       "id": "O3nFopIjmjI"
@@ -296,7 +373,7 @@
       "year": 2019,
       "album": "The Book of Us : Gravity",
       "cover": "assets/img/album/tbug.png",
-      "keywords": ["힘을 얻기", "고마움을 표시하기", "벅차오르는"],
+      "keywords": ["흥을 불러오는", "힘을 얻기", "벅차오르는", "신나게"],
       "id": "a-UfQfufkgU"
     },
     {
@@ -307,7 +384,6 @@
       "keywords": [
         "감성을 타고 싶다면",
         "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
         "신나게"
       ],
       "id": "nU2ESuG0SLk"
@@ -320,7 +396,19 @@
       "keywords": [
         "흥을 불러오는",
         "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
+        "누군가를 좋아한다면",
+        "신나게"
+      ],
+      "id": "4RJWqIEo_Tc"
+    },
+    {
+      "title": "놀래!",
+      "year": 2017,
+      "album": "Every DAY6 August",
+      "cover": "assets/img/album/edau.png",
+      "keywords": [
+        "흥을 불러오는",
+        "힘을 얻기", 
         "신나게"
       ],
       "id": "4RJWqIEo_Tc"
@@ -333,7 +421,6 @@
       "keywords": [
         "감성을 타고 싶다면",
         "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
         "신나게"
       ],
       "id": "HIDranJqHLQ"
@@ -346,7 +433,7 @@
       "keywords": [
         "흥을 불러오는",
         "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
+        "누군가를 좋아한다면",
         "신나게"
       ],
       "id": "kO-Iy7lVFBc"
@@ -356,7 +443,7 @@
       "year": 2021,
       "album": "The Book of Us : Gluon",
       "cover": "assets/img/album/tnug.png",
-      "keywords": ["감성을 타고 싶다면", "첫눈에 반했을 때", "잔잔한/슬픈"],
+      "keywords": ["감성을 타고 싶다면", "고마움을 표시하기", "사랑에 빠졌을 때", "잔잔한/슬픈"],
       "id": "Pi-aHWXXfMg"
     },
     {
@@ -364,7 +451,7 @@
       "year": 2019,
       "album": "The Book of Us : Gravity",
       "cover": "assets/img/album/tbug.png",
-      "keywords": ["흥을 불러오는", "신나게"],
+      "keywords": ["흥을 불러오는", "신나게", "힘을 얻기"],
       "id": "qCZm8abq8Co"
     },
     {
@@ -374,8 +461,7 @@
       "cover": "assets/img/album/tbug.png",
       "keywords": [
         "흥을 불러오는",
-        "감성을 타고 싶다면",
-        "첫눈에 반했을 때",
+        "힘을 얻기",
         "신나게"
       ],
       "id": "UTmMpCBsF8Y"
@@ -387,8 +473,7 @@
       "cover": "assets/img/album/dd.png",
       "keywords": [
         "흥을 불러오는",
-        "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
+        "힘을 얻기",
         "신나게"
       ],
       "id": "agNEwhiVj7Y"
@@ -400,9 +485,8 @@
       "cover": "assets/img/album/mr.png",
       "keywords": [
         "흥을 불러오는",
-        "감성을 타고 싶다면",
         "고마움을 표시하기",
-        "첫눈에 반했을 때",
+        "사랑에 빠졌을 때",
         "신나게",
         "벅차오르는"
       ],
@@ -416,7 +500,7 @@
       "keywords": [
         "감성을 타고 싶다면",
         "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
+        "누군가를 좋아한다면",
         "신나게",
         "벅차오르는"
       ],
@@ -427,7 +511,7 @@
       "year": 2017,
       "album": "Every DAY6 March",
       "cover": "assets/img/album/edm.png",
-      "keywords": ["감성을 타고 싶다면", "이별 후", "잔잔한/슬픈"],
+      "keywords": ["감성을 타고 싶다면", "이별 후", "벅차오르는"],
       "id": "McgYSsv9o4c"
     },
     {
@@ -438,7 +522,6 @@
       "keywords": [
         "감성을 타고 싶다면",
         "권태기를 극복하기",
-        "벅차오르는",
         "잔잔한/슬픈"
       ],
       "id": "4aPuslJEjnY"
@@ -464,7 +547,7 @@
       "year": 2017,
       "album": "Every DAY6 September",
       "cover": "assets/img/album/eds.png",
-      "keywords": ["감성을 타고 싶다면", "이별 후", "잔잔한/슬픈"],
+      "keywords": ["감성을 타고 싶다면", "이별 후", "신나게"],
       "id": "4DSuRqiK9gk"
     },
     {
@@ -501,7 +584,7 @@
       "year": 2019,
       "album": "The Book of Us : Entropy",
       "cover": "assets/img/album/tbue.png",
-      "keywords": ["감성을 타고 싶다면", "첫눈에 반했을 때", "신나게"],
+      "keywords": ["감성을 타고 싶다면", "누군가를 좋아한다면", "신나게"],
       "id": "crecrLp0iCE"
     },
     {
@@ -509,7 +592,7 @@
       "year": 2018,
       "album": "Remember Us : Youth Part 2",
       "cover": "assets/img/album/ruyp.png",
-      "keywords": ["감성을 타고 싶다면", "이별 후", "잔잔한/슬픈"],
+      "keywords": ["감성을 타고 싶다면", "힘을 얻기", "벅차오르는"],
       "id": "PAE88urB1xs"
     },
     {
@@ -525,7 +608,7 @@
       "year": 2021,
       "album": "The Book of Us: Negentropy",
       "cover": "assets/img/album/tbun.png",
-      "keywords": ["감성을 타고 싶다면", "이별 후", "잔잔한/슬픈"],
+      "keywords": ["감성을 타고 싶다면", "이별 후", "벅차오르는"],
       "id": "jTwJfDI0ePc"
     },
     {
@@ -533,7 +616,7 @@
       "year": 2019,
       "album": "The Book of Us : Entropy",
       "cover": "assets/img/album/tbue.png",
-      "keywords": ["흥을 불러오는", "첫눈에 반했을 때", "마라맛"],
+      "keywords": ["흥을 불러오는", "누군가를 좋아한다면", "마라맛"],
       "id": "NeKxYyHSxdk"
     },
     {
@@ -544,8 +627,7 @@
       "keywords": [
         "감성을 타고 싶다면",
         "이별 후",
-        "벅차오르는",
-        "잔잔한/슬픈"
+        "벅차오르는"
       ],
       "id": "ythA128geTE"
     },
@@ -572,9 +654,8 @@
       "cover": "assets/img/album/edf.png",
       "keywords": [
         "감성을 타고 싶다면",
-        "고마움을 표시하기",
         "사랑에 빠졌을 때",
-        "잔잔한/슬픈"
+        "벅차오르는"
       ],
       "id": "hA5v5zqKX3s"
     },
@@ -583,7 +664,23 @@
       "year": 2017,
       "album": "Every DAY6 November",
       "cover": "assets/img/album/edn.png",
-      "keywords": ["흥을 불러오는", "사랑에 빠졌을 때", "신나게"],
+      "keywords": ["흥을 불러오는", "누군가를 좋아한다면", "신나게"],
+      "id": "IUGSKW12lHY"
+    },
+    {
+      "title": "혼자야",
+      "year": 2017,
+      "album": "Every DAY6 November",
+      "cover": "assets/img/album/edn.png",
+      "keywords": ["감성을 타고 싶다면", "잔잔한/슬픈"],
+      "id": "IUGSKW12lHY"
+    },
+    {
+      "title": "혼자야",
+      "year": 2017,
+      "album": "Every DAY6 November",
+      "cover": "assets/img/album/edn.png",
+      "keywords": ["감성을 타고 싶다면", "잔잔한/슬픈"],
       "id": "IUGSKW12lHY"
     },
     {
@@ -607,7 +704,7 @@
       "year": 2021,
       "album": "Right Through Me",
       "cover": "assets/img/album/rtm.png",
-      "keywords": ["흥을 불러오는", "이별 후", "신나게", "벅차오르는"],
+      "keywords": ["흥을 불러오는", "이별 후", "벅차오르는"],
       "id": "5PrhMHtqxZ4"
     },
     {
@@ -618,8 +715,7 @@
       "keywords": [
         "감성을 타고 싶다면",
         "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
-        "잔잔한/슬픈",
+        "누군가를 좋아한다면",
         "벅차오르는"
       ],
       "id": "D7c7rBv-FUU"
@@ -640,7 +736,6 @@
       "keywords": [
         "흥을 불러오는",
         "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
         "마라맛"
       ],
       "id": "HnQNNoA5abk"
@@ -650,7 +745,7 @@
       "year": 2019,
       "album": "The Book of Us : Gravity",
       "cover": "assets/img/album/tbug.png",
-      "keywords": ["감성을 타고 싶다면", "신나게"],
+      "keywords": ["감성을 타고 싶다면", "신나게", "힘을 얻기"],
       "id": "_spghow6JqY"
     },
     {
@@ -674,7 +769,7 @@
       "year": 2019,
       "album": "The Book of Us : The Demon",
       "cover": "assets/img/album/tbud.png",
-      "keywords": ["흥을 불러오는", "권태기를 극복하기", "마라맛"],
+      "keywords": ["흥을 불러오는", "마라맛"],
       "id": "I1nGGToyte8"
     },
     {
@@ -692,7 +787,7 @@
       "cover": "assets/img/album/tnug.png",
       "keywords": [
         "감성을 타고 싶다면",
-        "사랑에 빠졌을 때",
+        "누군가를 좋아한다면",
         "신나게",
         "잔잔한/슬픈"
       ],
@@ -713,8 +808,7 @@
       "cover": "assets/img/album/smyp.png",
       "keywords": [
         "흥을 불러오는",
-        "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
+        "누군가를 좋아한다면",
         "마라맛"
       ],
       "id": "iTWW9JPIdkI"
@@ -727,7 +821,6 @@
       "keywords": [
         "흥을 불러오는",
         "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
         "신나게"
       ],
       "id": "8meVwcHtoQk"
@@ -740,7 +833,6 @@
       "keywords": [
         "흥을 불러오는",
         "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
         "신나게"
       ],
       "id": "kirz5Z8LCUk"
@@ -750,7 +842,7 @@
       "year": 2015,
       "album": "The Day",
       "cover": "assets/img/album/td.png",
-      "keywords": ["흥을 불러오는", "권태기를 극복하기", "신나게"],
+      "keywords": ["흥을 불러오는", "사랑에 빠졌을 때", "신나게"],
       "id": "X1RjdWg9ltA"
     },
     {
@@ -768,8 +860,6 @@
       "cover": "assets/img/album/ruyp.png",
       "keywords": [
         "흥을 불러오는",
-        "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
         "마라맛"
       ],
       "id": "22p1zIju_jE"
@@ -779,7 +869,7 @@
       "year": 2018,
       "album": "Remember Us : Youth Part 2",
       "cover": "assets/img/album/ruyp.png",
-      "keywords": ["흥을 불러오는", "권태기를 극복하기", "신나게"],
+      "keywords": ["흥을 불러오는", "힘을 얻기", "신나게"],
       "id": "ClwEVvUgxEE"
     },
     {
@@ -789,8 +879,7 @@
       "cover": "assets/img/album/smyp.png",
       "keywords": [
         "흥을 불러오는",
-        "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
+        "힘을 얻기",
         "마라맛"
       ],
       "id": "u6q6geg-THo"
@@ -803,7 +892,6 @@
       "keywords": [
         "감성을 타고 싶다면",
         "이별 후",
-        "잔잔한/슬픈",
         "벅차오르는"
       ],
       "id": "COfOj7l-jPw"
@@ -816,7 +904,6 @@
       "keywords": [
         "감성을 타고 싶다면",
         "권태기를 극복하기",
-        "잔잔한/슬픈",
         "벅차오르는"
       ],
       "id": "hmoNBt9yetM"
@@ -828,7 +915,7 @@
       "cover": "assets/img/album/pil.png",
       "keywords": [
         "흥을 불러오는",
-        "첫눈에 반했을 때",
+        "누군가를 좋아한다면",
         "사랑에 빠졌을 때",
         "신나게"
       ],
@@ -841,7 +928,6 @@
       "cover": "assets/img/album/pil.png",
       "keywords": [
         "감성을 타고 싶다면",
-        "첫눈에 반했을 때",
         "사랑에 빠졌을 때",
         "잔잔한/슬픈"
       ],
@@ -854,7 +940,7 @@
       "cover": "assets/img/album/pil.png",
       "keywords": [
         "감성을 타고 싶다면",
-        "첫눈에 반했을 때",
+        "누군가를 좋아한다면",
         "사랑에 빠졌을 때",
         "잔잔한/슬픈"
       ],
@@ -899,7 +985,6 @@
       "cover": "assets/img/album/eter.png",
       "keywords": [
         "흥을 불러오는",
-        "첫눈에 반했을 때",
         "사랑에 빠졌을 때",
         "신나게"
       ],
@@ -912,7 +997,6 @@
       "cover": "assets/img/album/eter.png",
       "keywords": [
         "흥을 불러오는",
-        "첫눈에 반했을 때",
         "사랑에 빠졌을 때",
         "신나게"
       ],
@@ -925,7 +1009,7 @@
       "cover": "assets/img/album/eter.png",
       "keywords": [
         "흥을 불러오는",
-        "첫눈에 반했을 때",
+        "누군가를 좋아한다면",
         "사랑에 빠졌을 때",
         "신나게"
       ],
@@ -944,7 +1028,7 @@
       "year": 2021,
       "album": "Eternal",
       "cover": "assets/img/album/eter.png",
-      "keywords": ["감성을 타고 싶다면", "권태기를 극복하기", "잔잔한/슬픈"],
+      "keywords": ["감성을 타고 싶다면", "사랑에 빠졌을 때", "잔잔한/슬픈"],
       "id": "Er0VxHCsxDc"
     },
     {
@@ -954,7 +1038,6 @@
       "cover": "assets/img/album/eter.png",
       "keywords": [
         "감성을 타고 싶다면",
-        "첫눈에 반했을 때",
         "사랑에 빠졌을 때",
         "잔잔한/슬픈"
       ],
@@ -967,7 +1050,6 @@
       "cover": "assets/img/album/eter.png",
       "keywords": [
         "감성을 타고 싶다면",
-        "첫눈에 반했을 때",
         "사랑에 빠졌을 때",
         "잔잔한/슬픈"
       ],
@@ -980,7 +1062,7 @@
       "cover": "assets/img/album/lwn.png",
       "keywords": [
         "흥을 불러오는",
-        "첫눈에 반했을 때",
+        "누군가를 좋아한다면",
         "사랑에 빠졌을 때",
         "신나게"
       ],
@@ -991,7 +1073,7 @@
       "year": 2023,
       "album": "Letters with notes",
       "cover": "assets/img/album/lwn.png",
-      "keywords": ["흥을 불러오는", "신나게", "마라맛"],
+      "keywords": ["흥을 불러오는", "신나게", "마라맛", "힘을 얻기"],
       "id": "O-2TtaQWpR4"
     },
     {
@@ -1014,8 +1096,7 @@
       "cover": "assets/img/album/lwn.png",
       "keywords": [
         "흥을 불러오는",
-        "첫눈에 반했을 때",
-        "사랑에 빠졌을 때",
+        "누군가를 좋아한다면",
         "신나게"
       ],
       "id": "2cCG2HkKqY0"
@@ -1027,8 +1108,7 @@
       "cover": "assets/img/album/lwn.png",
       "keywords": [
         "흥을 불러오는",
-        "첫눈에 반했을 때",
-        "사랑에 빠졌을 때",
+        "누군가를 좋아한다면",
         "신나게"
       ],
       "id": "MMJsaslwkdA"
@@ -1040,7 +1120,6 @@
       "cover": "assets/img/album/lwn.png",
       "keywords": [
         "흥을 불러오는",
-        "첫눈에 반했을 때",
         "사랑에 빠졌을 때",
         "신나게"
       ],
@@ -1053,7 +1132,6 @@
       "cover": "assets/img/album/lwn.png",
       "keywords": [
         "흥을 불러오는",
-        "첫눈에 반했을 때",
         "사랑에 빠졌을 때",
         "신나게"
       ],
@@ -1082,10 +1160,8 @@
       "cover": "assets/img/album/bandaid.png",
       "keywords": [
         "흥을 불러오는",
-        "사랑에 빠졌을 때",
         "고마움을 표시하기",
-        "신나게",
-        "힘을 얻기"
+        "신나게"
       ],
       "id": "bShOVeYi_vg"
     },
@@ -1096,8 +1172,7 @@
       "cover": "assets/img/album/bandaid.png",
       "keywords": [
         "흥을 불러오는",
-        "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
+        "누군가를 좋아한다면",
         "신나게"
       ],
       "id": "09ig852MsMg"
@@ -1109,8 +1184,7 @@
       "cover": "assets/img/album/bandaid.png",
       "keywords": [
         "흥을 불러오는",
-        "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
+        "힘을 얻기",
         "신나게"
       ],
       "id": "mqxDy2_GVLU"
@@ -1122,8 +1196,7 @@
       "cover": "assets/img/album/bandaid.png",
       "keywords": [
         "흥을 불러오는",
-        "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
+        "누군가를 좋아한다면",
         "신나게"
       ],
       "id": "LCpEVQ9yvVk"
@@ -1135,8 +1208,7 @@
       "cover": "assets/img/album/bandaid.png",
       "keywords": [
         "흥을 불러오는",
-        "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
+        "힘을 얻기",
         "신나게"
       ],
       "id": "B9vB01PEnzE"
@@ -1157,7 +1229,6 @@
       "keywords": [
         "감성을 타고 싶다면",
         "이별 후",
-        "잔잔한/슬픈",
         "벅차오르는"
       ],
       "id": "KzXkHD3W7Pk"
@@ -1169,9 +1240,8 @@
       "cover": "assets/img/album/30.webp",
       "keywords": [
         "감성을 타고 싶다면",
-        "사랑에 빠졌을 때",
-        "고마움을 표시하기",
-        "잔잔한/슬픈"
+        "힘을 얻기",
+        "신나게"
       ],
       "id": "S2SuL7jfSDk"
     },
@@ -1182,11 +1252,8 @@
       "cover": "assets/img/album/30.webp",
       "keywords": [
         "감성을 타고 싶다면",
-        "권태기를 극복하기",
         "고마움을 표시하기",
-        "이별 후",
-        "잔잔한/슬픈",
-        "벅차오르는"
+        "잔잔한/슬픈"
       ],
       "id": "Uv2ltkUTbEw"
     },
@@ -1213,7 +1280,6 @@
       "cover": "assets/img/album/30.webp",
       "keywords": [
         "감성을 타고 싶다면",
-        "잔잔한/슬픈",
         "벅차오르는",
         "힘을 얻기"
       ],
@@ -1227,8 +1293,6 @@
       "keywords": [
         "감성을 타고 싶다면",
         "사랑에 빠졌을 때",
-        "첫눈에 반했을 때",
-        "잔잔한/슬픈",
         "신나게"
       ],
       "id": "rRhdMG4CEOg"
@@ -1238,7 +1302,7 @@
       "year": 2024,
       "album": "30",
       "cover": "assets/img/album/30.webp",
-      "keywords": ["감성을 타고 싶다면", "벅차오르는", "힘을 얻기"],
+      "keywords": ["감성을 타고 싶다면", "잔잔한/슬픈", "힘을 얻기"],
       "id": "0kZABfrug1o"
     },
     {
@@ -1256,9 +1320,8 @@
       "cover": "assets/img/album/30.webp",
       "keywords": [
         "감성을 타고 싶다면",
-        "이별 후",
-        "잔잔한/슬픈",
-        "벅차오르는"
+        "힘을 얻기",
+        "잔잔한/슬픈"
       ],
       "id": "sEyxJSVOA9A"
     },
@@ -1277,8 +1340,7 @@
       "cover": "assets/img/album/mp.jpg",
       "keywords": [
         "흥을 불러오는",
-        "첫눈에 반했을 때",
-        "사랑에 빠졌을 때",
+        "누군가를 좋아한다면",
         "신나게"
       ],
       "id": "Jbyqt0Sb8Rg"
@@ -1296,8 +1358,88 @@
       "year": 2025,
       "album": "Maybe Tomorrow",
       "cover": "assets/img/album/mt.jpg",
-      "keywords": ["흥을 불러오는", "권태기를 극복하기", "마라맛"],
+      "keywords": ["흥을 불러오는", "권태기를 극복하기", "잔잔한/슬픈"],
       "id": "DnR8pZ7YO6o"
+    },
+    {
+      "title": "꿈의 버스",
+      "year": 2025,
+      "album": "The DECADE",
+      "cover": "assets/img/album/td.jpg",
+      "keywords": ["흥을 불러오는", "힘을 얻기", "신나게"],
+      "id": "JcW5emhEON8"
+    },
+    {
+      "title": "INSIDE OUT",
+      "year": 2025,
+      "album": "The DECADE",
+      "cover": "assets/img/album/td.jpg",
+      "keywords": ["흥을 불러오는", "사랑에 빠졌을 때", "마라맛"],
+      "id": "qg0t5QTb600"
+    },
+    {
+      "title": "해야 뜨지 말아 줘",
+      "year": 2025,
+      "album": "The DECADE",
+      "cover": "assets/img/album/td.jpg",
+      "keywords": ["흥을 불러오는", "사랑에 빠졌을 때", "신나게"],
+      "id": "Lp4x8WsGwCo"
+    },
+    {
+      "title": "Disco Day",
+      "year": 2025,
+      "album": "The DECADE",
+      "cover": "assets/img/album/td.jpg",
+      "keywords": ["흥을 불러오는", "사랑에 빠졌을 때", "신나게"],
+      "id": "uQrCIR5aSto"
+    },
+    {
+      "title": "My Way",
+      "year": 2025,
+      "album": "The DECADE",
+      "cover": "assets/img/album/td.jpg",
+      "keywords": ["흥을 불러오는", "힘을 얻기", "신나게"],
+      "id": "G45bO2CYba0"
+    },
+    {
+      "title": "별들 앞에서",
+      "year": 2025,
+      "album": "The DECADE",
+      "cover": "assets/img/album/td.jpg",
+      "keywords": ["감성을 타고 싶다면", "힘을 얻기", "잔잔한/슬픈"],
+      "id": "2fKmtgIseZE"
+    },
+    {
+      "title": "Take All My Heart",
+      "year": 2025,
+      "album": "The DECADE",
+      "cover": "assets/img/album/td.jpg",
+      "keywords": ["흥을 불러오는", "누군가를 좋아한다면", "신나게"],
+      "id": "IXBQiT2FMb0"
+    },
+    {
+      "title": "날아라! 드림라이더",
+      "year": 2025,
+      "album": "The DECADE",
+      "cover": "assets/img/album/td.jpg",
+      "keywords": ["흥을 불러오는", "힘을 얻기", "신나게"],
+      "id": "CYj8d_2eD3U"
+    },
+    {
+      "title": "드디어 끝나갑니다",
+      "year": 2025,
+      "album": "The DECADE",
+      "cover": "assets/img/album/td.jpg",
+      "keywords": ["흥을 불러오는", "힘을 얻기", "신나게"],
+      "id": "t5vHBX07Qb4"
+    },
+    {
+      "title": "우리의 계절",
+      "year": 2025,
+      "album": "The DECADE",
+      "cover": "assets/img/album/td.jpg",
+      "keywords": ["감성을 타고 싶다면", "사랑에 빠졌을 때", "벅차오르는"],
+      "id": "94IwuqEXN-w"
     }
   ]
 }
