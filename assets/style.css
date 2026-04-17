@@ -1,7 +1,7 @@
 
 @import url("pretendard.css");
 
-@font-face {
+@f-ont-face {
   font-family: "WavvePADO-Regular";
   src: url("font/WavvePADO-Regular.woff2")
     format("woff2");

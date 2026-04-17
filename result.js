@@ -201,12 +201,15 @@ async function exportToYouTube(type) {
     const filteredSongsByAnyKeyword2Or3 = await filterSongsByAnyKeyword2Or3(
       keywords.slice(1)
     );
-    songsToExport = [...filteredSongs, ...filteredSongsByAnyKeyword2Or3];
+    const allSongs = [...filteredSongs, ...filteredSongsByAnyKeyword2Or3];
+    // 중복 제거
+    songsToExport = Array.from(new Set(allSongs.map(s => s.id)))
+      .map(id => allSongs.find(s => s.id === id));
   } else {
     songsToExport = filteredSongs;
   }
 
-  if (songsToExport.length > 1) {
+  if (songsToExport.length >= 1) {
     const chunkSize = 50;
     const songChunks = [];
     for (let i = 0; i < songsToExport.length; i += chunkSize) {
@@ -214,20 +217,13 @@ async function exportToYouTube(type) {
     }
 
     songChunks.forEach((chunk, index) => {
-      const firstVideoId = chunk[0].id;
-      const otherVideoIds = chunk
-        .slice(1)
-        .map((song) => song.id)
-        .join(",");
-      const playlistUrl = `https://www.youtube.com/watch_videos?video_ids=${firstVideoId},${otherVideoIds}`;
+      const videoIds = chunk.map((song) => song.id).join(",");
+      const playlistUrl = `https://www.youtube.com/watch_videos?video_ids=${videoIds}`;
 
       setTimeout(() => {
         window.open(playlistUrl, "_blank");
       }, index * 1000);
     });
-  } else if (songsToExport.length === 1) {
-    const singleVideoUrl = `https://www.youtube.com/watch?v=${songsToExport[0].id}`;
-    window.open(singleVideoUrl, "_blank");
   } else {
     alert("내보낼 노래가 없습니다!");
   }
