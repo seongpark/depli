@@ -1,24 +1,11 @@
+
+@import url("pretendard.css");
+
 @font-face {
   font-family: "WavvePADO-Regular";
-  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2404@1.0/WavvePADO-Regular.woff2")
+  src: url("font/WavvePADO-Regular.woff2")
     format("woff2");
   font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Pretendard-Regular";
-  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
-    format("woff");
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Pretendard-Bold";
-  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff")
-    format("woff");
-  font-weight: 400;
   font-style: normal;
 }
 
@@ -30,7 +17,7 @@
 
 body {
   background-color: #fafafa !important;
-  font-family: "Pretendard-Regular" !important;
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif !important;
 }
 
 .highlight {
@@ -38,7 +25,8 @@ body {
 }
 
 .bold {
-  font-family: "Pretendard-Bold" !important;
+  font-family: "Pretendard", sans-serif !important;
+  font-weight: 700 !important;
 }
 
 .detail {

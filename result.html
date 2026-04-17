@@ -54,7 +54,7 @@
       </h2>
 
       <div
-        class="d-flex justify-content-between mt-2"
+        class="d-flex justify-content-between mt-3"
         style="align-items: center"
       >
         <div>
@@ -114,6 +114,25 @@
     </div>
 
     <div id="player"></div>
+
+    <!-- YouTube Export Modal -->
+    <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 20px; border: none;">
+          <div class="modal-header" style="border-bottom: none; padding-top: 25px;">
+            <h5 class="modal-title bold" id="exportModalLabel" style="width: 100%; text-align: center;">YouTube 재생목록 내보내기</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; right: 20px;"></button>
+          </div>
+          <div class="modal-body" style="padding: 20px 25px 30px 25px; text-align: center; color: #585858;">
+            어떤 곡들을 유튜브 재생목록으로 내보낼까요?
+          </div>
+          <div class="modal-footer" style="border-top: none; padding: 0 25px 25px 25px; display: flex; flex-direction: column; gap: 10px;">
+            <button type="button" class="btn btn-primary" id="exportAll" style="width: 100%; border-radius: 12px; padding: 12px; background-color: #57c3c5; border: none;">비슷한 곡까지 포함해서 내보내기</button>
+            <button type="button" class="btn btn-secondary" id="exportExact" style="width: 100%; border-radius: 12px; padding: 12px; background-color: #f0f0f0; border: none; color: #585858;">완전히 일치하는 곡만 내보내기</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script
       src="https://code.jquery.com/jquery-3.6.0.min.js"

@@ -186,20 +186,31 @@ function playVideoWithId(videoId, button) {
   }
 }
 
-// 플레이리스트 버튼
-document.getElementById("makepli").addEventListener("click", async function () {
+// 플레이리스트 버튼 클릭 시 모달 표시
+document.getElementById("makepli").addEventListener("click", function () {
+  const modal = new bootstrap.Modal(document.getElementById("exportModal"));
+  modal.show();
+});
+
+// 유튜브로 내보내기 핵심 로직
+async function exportToYouTube(type) {
   const filteredSongs = await filterSongsByAllKeywords(keywords);
-  const filteredSongsByAnyKeyword2Or3 = await filterSongsByAnyKeyword2Or3(
-    keywords.slice(1)
-  );
+  let songsToExport = [];
 
-  const allFilteredSongs = [...filteredSongs, ...filteredSongsByAnyKeyword2Or3];
+  if (type === "all") {
+    const filteredSongsByAnyKeyword2Or3 = await filterSongsByAnyKeyword2Or3(
+      keywords.slice(1)
+    );
+    songsToExport = [...filteredSongs, ...filteredSongsByAnyKeyword2Or3];
+  } else {
+    songsToExport = filteredSongs;
+  }
 
-  if (allFilteredSongs.length > 1) {
+  if (songsToExport.length > 1) {
     const chunkSize = 50;
     const songChunks = [];
-    for (let i = 0; i < allFilteredSongs.length; i += chunkSize) {
-      songChunks.push(allFilteredSongs.slice(i, i + chunkSize));
+    for (let i = 0; i < songsToExport.length; i += chunkSize) {
+      songChunks.push(songsToExport.slice(i, i + chunkSize));
     }
 
     songChunks.forEach((chunk, index) => {
@@ -214,10 +225,21 @@ document.getElementById("makepli").addEventListener("click", async function () {
         window.open(playlistUrl, "_blank");
       }, index * 1000);
     });
-  } else if (allFilteredSongs.length === 1) {
-    const singleVideoUrl = `https://www.youtube.com/watch?v=${allFilteredSongs[0].id}`;
+  } else if (songsToExport.length === 1) {
+    const singleVideoUrl = `https://www.youtube.com/watch?v=${songsToExport[0].id}`;
     window.open(singleVideoUrl, "_blank");
   } else {
-    alert("선택된 키워드에 해당하는 노래가 없습니다!");
+    alert("내보낼 노래가 없습니다!");
   }
-});
+
+  // 모달 닫기
+  const modalElement = document.getElementById("exportModal");
+  const modal = bootstrap.Modal.getInstance(modalElement);
+  if (modal) {
+    modal.hide();
+  }
+}
+
+// 모달 버튼 이벤트 리스너
+document.getElementById("exportAll").addEventListener("click", () => exportToYouTube("all"));
+document.getElementById("exportExact").addEventListener("click", () => exportToYouTube("exact"));

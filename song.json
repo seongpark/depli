@@ -304,6 +304,7 @@
       "keywords": [
         "흥을 불러오는",
         "사랑에 빠졌을 때",
+        "고마움을 표시하기",
         "신나게"
       ],
       "id": "HXEG0fqrViM"
@@ -738,6 +739,43 @@
         "마라맛"
       ],
       "id": "HnQNNoA5abk"
+    },
+    {
+      "title": "지금쯤",
+      "year": 2019,
+      "album": "The Book of Us : Entropy",
+      "cover": "assets/img/album/tbue.png",
+      "keywords": [
+        "감성을 타고 싶다면",
+        "이별 후",
+        "잔잔한/슬픈"
+      ],
+      "id": "VjSemnD-ZlE"
+    },
+    {
+      "title": "아야야",
+      "year": 2019,
+      "album": "The Book of Us : Entropy",
+      "cover": "assets/img/album/tbue.png",
+      "keywords": [
+        "감성을 타고 싶다면",
+        "권태기를 극복하기",
+        "잔잔한/슬픈"
+      ],
+      "id": "ivVyNYbtX90"
+    },
+    {
+      "title": "막말",
+      "year": 2019,
+      "album": "The Book of Us : Entropy",
+      "cover": "assets/img/album/tbue.png",
+      "keywords": [
+        "흥을 불러오는",
+        "누군가를 좋아한다면",
+        "사랑에 빠졌을 때",
+        "신나게"
+      ],
+      "id": "yw0JPHZm2d4"
     },
     {
       "title": "돌아갈래요",
@@ -1487,6 +1525,22 @@
       "cover": "assets/img/album/up.webp",
       "keywords": ["감성을 타고 싶다면", "잔잔한/슬픈", "이별 후"],
       "id": "-a6FFdGYOas"
+    },
+    {
+      "title": "사랑, 이게 맞나봐",
+      "year": 2021,
+      "album": "비밀:리에 vol.1 \"사랑, 이게 맞나 봐\"",
+      "cover": "assets/img/album/bm.jpg",
+      "keywords": ["감성을 타고 싶다면", "누군가를 좋아한다면", "사랑에 빠졌을 때", "신나게"],
+      "id": "k1SaWQO0_fM"
+    },
+    {
+      "title": "Chocolate",
+      "year": 2018,
+      "album": "하지 말라면 더 하고 19 Part.1",
+      "cover": "assets/img/album/hh.jpg",
+      "keywords": ["감성을 타고 싶다면", "누군가를 좋아한다면", "신나게"],
+      "id": "-VvIYhepewA"
     }
   ]
 }

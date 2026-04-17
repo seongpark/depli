@@ -1,31 +1,43 @@
-const keywords = document.querySelectorAll(".keyword");
+document.addEventListener("DOMContentLoaded", () => {
+  const keywords = document.querySelectorAll(".keyword");
+  const limitModalElement = document.getElementById('limitModal');
+  let limitModal;
 
-keywords.forEach((keyword, index) => {
-  keyword.addEventListener("click", () => {
-    keyword.classList.toggle("selected");
-  });
-});
-
-//키워드 처리
-document.querySelector(".letsmake").addEventListener("click", () => {
-  const selectedIds = [];
-
-  const selectedButtons = document.querySelectorAll(".keyword.selected");
-
-  if (selectedButtons.length === 0) {
-    alert("최소 1개의 키워드를 선택해야 합니다.");
-    return;
+  if (limitModalElement) {
+    limitModal = new bootstrap.Modal(limitModalElement);
   }
 
-  if (selectedButtons.length > 3) {
-    alert("최대 3개의 버튼만 선택할 수 있습니다.");
-    return;
-  }
-
-  selectedButtons.forEach((button, index) => {
-    selectedIds.push(`keyword${index + 1}=${button.id}`);
+  keywords.forEach((keyword) => {
+    keyword.addEventListener("click", () => {
+      const selectedButtons = document.querySelectorAll(".keyword.selected");
+      
+      if (!keyword.classList.contains("selected") && selectedButtons.length >= 3) {
+        if (limitModal) limitModal.show();
+        return;
+      }
+      
+      keyword.classList.toggle("selected");
+    });
   });
 
-  const queryString = selectedIds.join("&");
-  window.location.href = `result.html?${queryString}`;
+  // 키워드 처리
+  const createBtn = document.getElementById("createPlaylist");
+  if (createBtn) {
+    createBtn.addEventListener("click", () => {
+      const selectedIds = [];
+      const selectedButtons = document.querySelectorAll(".keyword.selected");
+
+      if (selectedButtons.length === 0) {
+        alert("최소 1개의 키워드를 선택해야 합니다.");
+        return;
+      }
+
+      selectedButtons.forEach((button, index) => {
+        selectedIds.push(`keyword${index + 1}=${button.id}`);
+      });
+
+      const queryString = selectedIds.join("&");
+      window.location.href = `result.html?${queryString}`;
+    });
+  }
 });
