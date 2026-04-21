@@ -9,21 +9,12 @@ for (let i = 1; i <= 3; i++) {
 }
 const pageType = urlParams.get("type"); // 'concert', 'thepresent25' 등 여부 확인
 
-// 모바일 기기 체크
-const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
 // 전역 변수 설정
 let player;
 let isApiLoaded = false;
 let currentPlaylist = [];
 let isPlaying = false;
 let currentPlayingId = null;
-
-// 모바일이면 전체 재생 버튼 숨기기
-if (isMobile) {
-  const playAllBtn = document.getElementById("playAllInternal");
-  if (playAllBtn) playAllBtn.style.display = "none";
-}
 
 // YouTube API 스크립트 로드
 const tag = document.createElement("script");
