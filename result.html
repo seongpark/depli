@@ -84,6 +84,27 @@
       .player-controls i:hover {
         opacity: 0.8;
       }
+      /* 상단 큰 앨범 아트 스타일 */
+      #albumArtContainer {
+        display: none;
+        justify-content: center;
+        margin-bottom: 15px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.3s ease-out;
+      }
+      #albumArtContainer.show {
+        display: flex;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      #largeAlbumArt {
+        width: 180px;
+        height: 180px;
+        border-radius: 20px;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 25px;
+        object-fit: cover;
+      }
     </style>
   </head>
   <body>
@@ -155,6 +176,10 @@
       <div style="height: 180px"></div>
       <div class="fixed-bottom">
         <div class="d-grid container">
+          <!-- 상단 앨범 아트 -->
+          <div id="albumArtContainer">
+            <img id="largeAlbumArt" src="favicon.png" alt="앨범 커버">
+          </div>
           <!-- 플레이어 컨트롤바 (버튼 위에 배치) -->
           <div id="playerBar">
             <div class="player-info">

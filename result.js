@@ -74,6 +74,7 @@ function updatePlayerBarUI() {
   if (currentSong) {
     document.getElementById("playerBar").style.display = "flex";
     document.getElementById("currentCover").src = currentSong.cover;
+    document.getElementById("largeAlbumArt").src = currentSong.cover;
     document.getElementById("currentTitle").innerText = currentSong.title;
     document.getElementById("currentAlbum").innerText = `${currentSong.album} · ${currentSong.year}`;
   }
@@ -90,6 +91,30 @@ function updatePlayButtons() {
     }
   });
 }
+
+// 플레이어 바 클릭 시 큰 앨범 아트 토글
+document.getElementById("playerBar").addEventListener("click", function(e) {
+  // 제어 버튼(재생, 다음 곡 등)을 클릭한 경우에는 토글하지 않음
+  if (e.target.closest(".player-controls")) return;
+  
+  const container = document.getElementById("albumArtContainer");
+  if (container.classList.contains("show")) {
+    container.classList.remove("show");
+    setTimeout(() => {
+      if (!container.classList.contains("show")) {
+        container.style.display = "none";
+      }
+    }, 300); // transition 시간과 동일하게 설정
+  } else {
+    container.style.display = "flex";
+    // display: flex가 적용된 직후에는 transition이 작동하지 않으므로 rAF 사용
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        container.classList.add("show");
+      });
+    });
+  }
+});
 
 // 배열 랜덤 섞기 함수
 function shuffleArray(array) {
@@ -270,6 +295,9 @@ document.getElementById("closePlayerBtn").addEventListener("click", function() {
   if (player) {
     player.stopVideo();
     document.getElementById("playerBar").style.display = "none";
+    const container = document.getElementById("albumArtContainer");
+    container.classList.remove("show");
+    container.style.display = "none";
     currentPlayingId = null;
     updatePlayButtons();
   }
