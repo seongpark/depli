@@ -1541,6 +1541,46 @@
       "cover": "assets/img/album/hh.jpg",
       "keywords": ["감성을 타고 싶다면", "누군가를 좋아한다면", "신나게"],
       "id": "-VvIYhepewA"
+    },
+    {
+      "title": "문득",
+      "year": 2021,
+      "album": "문득 1st Digital Single",
+      "cover": "assets/img/album/md.jpg",
+      "keywords": ["흥을 불러오는", "힘을 얻기", "신나게"],
+      "id": "8xg7h1OTrsc"
+    },
+    {
+      "title": "불면증",
+      "year": 2020,
+      "album": "내리겠습니다 지구에서 Part.1",
+      "cover": "assets/img/album/md.jpg",
+      "keywords": ["감성을 타고 싶다면", "누군가를 좋아한다면", "잔잔한/슬픈"],
+      "id": "8xg7h1OTrsc"
+    },
+    {
+      "title": "아마도 사랑인가봐",
+      "year": 2023,
+      "album": "걸어서 차트 속으로 Part.2",
+      "cover": "assets/img/album/asa.jpg",
+      "keywords": ["흥을 불러오는", "누군가를 좋아한다면", "사랑에 빠졌을 때", "신나게"],
+      "id": "DtPnc1E3NqU"
+    },
+    {
+      "title": "사랑노래 (Feat. 원필(DAY6))",
+      "year": 2020,
+      "album": "Tailor",
+      "cover": "assets/img/album/srnr.webp",
+      "keywords": ["흥을 불러오는", "누군가를 좋아한다면", "사랑에 빠졌을 때", "신나게"],
+      "id": "RsjAUsh5hDQ"
+    },
+    {
+      "title": "사랑노래 (Feat. 원필(DAY6))",
+      "year": 2020,
+      "album": "유희열의 스케치북 : 마흔여덟 번째 목소리",
+      "cover": "assets/img/album/iza.jpg",
+      "keywords": ["감성을 타고 싶다면", "누군가를 좋아한다면", "벅차오르는"],
+      "id": "gKKxWgL7NaM"
     }
   ]
 }
