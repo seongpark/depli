@@ -1,4 +1,4 @@
-// GET 키워드 받아오기
+// GET 파라미터 받아오기
 const urlParams = new URLSearchParams(window.location.search);
 const keywords = [];
 for (let i = 1; i <= 3; i++) {
@@ -6,6 +6,98 @@ for (let i = 1; i <= 3; i++) {
   if (keyword) {
     keywords.push(keyword);
   }
+}
+const pageType = urlParams.get("type"); // 'concert', 'thepresent25' 등 여부 확인
+
+// 모바일 기기 체크
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+// 전역 변수 설정
+let player;
+let isApiLoaded = false;
+let currentPlaylist = [];
+let isPlaying = false;
+let currentPlayingId = null;
+
+// 모바일이면 전체 재생 버튼 숨기기
+if (isMobile) {
+  const playAllBtn = document.getElementById("playAllInternal");
+  if (playAllBtn) playAllBtn.style.display = "none";
+}
+
+// YouTube API 스크립트 로드
+const tag = document.createElement("script");
+tag.src = "https://www.youtube.com/iframe_api";
+const firstScriptTag = document.getElementsByTagName("script")[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// API 준비 완료 콜백
+window.onYouTubeIframeAPIReady = function () {
+  isApiLoaded = true;
+  player = new YT.Player("player", {
+    height: "0",
+    width: "0",
+    playerVars: {
+      autoplay: 0,
+      controls: 0,
+      showinfo: 0,
+      modestbranding: 1,
+      loop: 0,
+      fs: 0,
+      cc_load_policy: 0,
+      iv_load_policy: 3,
+      autohide: 0,
+    },
+    events: {
+      onReady: onPlayerReady,
+      onStateChange: onPlayerStateChange,
+    },
+  });
+};
+
+function onPlayerReady(event) {
+  event.target.setPlaybackQuality("small");
+}
+
+function onPlayerStateChange(event) {
+  const mainPlayBtn = document.getElementById("mainPlayBtn");
+  
+  if (event.data === YT.PlayerState.PLAYING) {
+    isPlaying = true;
+    if (player.getVideoData && player.getVideoData().video_id) {
+      currentPlayingId = player.getVideoData().video_id;
+      updatePlayerBarUI();
+    }
+    if (mainPlayBtn) mainPlayBtn.className = "fa-solid fa-pause";
+    updatePlayButtons();
+  } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+    isPlaying = false;
+    if (mainPlayBtn) mainPlayBtn.className = "fa-solid fa-play";
+    updatePlayButtons();
+  }
+}
+
+// 상단 플레이어 바 UI 업데이트
+function updatePlayerBarUI() {
+  const currentSong = currentPlaylist.find(s => s.id === currentPlayingId);
+  if (currentSong) {
+    document.getElementById("playerBar").style.display = "flex";
+    document.getElementById("currentCover").src = currentSong.cover;
+    document.getElementById("currentTitle").innerText = currentSong.title;
+    document.getElementById("currentAlbum").innerText = `${currentSong.album} · ${currentSong.year}`;
+  }
+}
+
+function updatePlayButtons() {
+  const allPlayButtons = document.querySelectorAll(".play");
+  allPlayButtons.forEach(btn => {
+    const videoId = btn.getAttribute("data-video-id");
+    if (videoId === currentPlayingId && isPlaying) {
+      btn.innerHTML = `<i class="fa-solid fa-pause"></i>`;
+    } else {
+      btn.innerHTML = `<i class="fa-solid fa-play"></i>`;
+    }
+  });
 }
 
 // 배열 랜덤 섞기 함수
@@ -17,29 +109,10 @@ function shuffleArray(array) {
   return array;
 }
 
-// 노래 데이터 가져오기
-async function fetchSongs() {
+// 데이터 가져오기
+async function fetchData() {
   const response = await fetch("song.json");
-  const data = await response.json();
-  return data.songs;
-}
-
-// 완전 일치 키워드로 필터링 + 랜덤 정렬
-async function filterSongsByAllKeywords(keywords) {
-  const songs = await fetchSongs();
-  const filtered = songs.filter((song) =>
-    keywords.every((keyword) => song.keywords.includes(keyword))
-  );
-  return shuffleArray(filtered);
-}
-
-// 일부 키워드(2,3번)로 필터링 + 랜덤 정렬
-async function filterSongsByAnyKeyword2Or3(keywords) {
-  const songs = await fetchSongs();
-  const filtered = songs.filter((song) =>
-    keywords.some((keyword) => song.keywords.includes(keyword))
-  );
-  return shuffleArray(filtered);
+  return await response.json();
 }
 
 // 필터된 노래들 출력
@@ -47,74 +120,97 @@ async function displayFilteredSongs() {
   const songDetail = document.getElementById("songDetail");
   const similarDetail = document.getElementById("similarDetail");
   const songDetailAlert = document.getElementById("songDetailAlert");
+  const songListContainer = document.getElementById("songList");
+  const similarSongContainer = document.getElementById("similarSong");
+  const h2Title = document.querySelector(".container h2.highlight");
 
   songDetailAlert.style.display = "none";
-
-  const filteredSongs = await filterSongsByAllKeywords(keywords);
-  const songListContainer = document.getElementById("songList");
   songListContainer.innerHTML = "";
-
-  if (filteredSongs.length > 0) {
-    songDetail.style.display = "block";
-
-    filteredSongs.forEach((song) => {
-      const songDiv = document.createElement("div");
-      songDiv.classList.add("song-list", "mb-3");
-      songDiv.innerHTML = `
-        <div style="display: flex; align-items: center;">
-          <img src="${song.cover}" alt="${song.title} 앨범 커버" class="album" />
-          <div style="margin-left: 10px;">
-            <span style="font-size: 18px;" class="bold">${song.title}</span>
-            <br />
-            <span style="font-size: 13px;">${song.album} · ${song.year}</span>
-          </div>
-        </div>
-        <div style="margin-left: auto;">
-          <button onclick="playVideoWithId('${song.id}', this)" class="play"><i class="fa-solid fa-play"></i></button>
-        </div>
-      `;
-      songListContainer.appendChild(songDiv);
-    });
-  } else {
-    songDetail.style.display = "none";
-    songDetailAlert.style.display = "block";
-  }
-
-  const filteredSongsByAnyKeyword2Or3 = await filterSongsByAnyKeyword2Or3(
-    keywords.slice(1)
-  );
-  const similarSongContainer = document.getElementById("similarSong");
   similarSongContainer.innerHTML = "";
 
-  if (filteredSongsByAnyKeyword2Or3.length > 0) {
-    similarDetail.style.display = "block";
+  const data = await fetchData();
+  const allSongs = data.songs;
 
-    filteredSongsByAnyKeyword2Or3.forEach((song) => {
-      const songDiv = document.createElement("div");
-      songDiv.classList.add("song-list", "mb-3");
-      songDiv.innerHTML = `
-        <div style="display: flex; align-items: center;">
-          <img src="${song.cover}" alt="${song.title} 앨범 커버" class="album" />
-          <div style="margin-left: 10px;">
-            <span style="font-size: 18px;" class="bold">${song.title}</span>
-            <br />
-            <span style="font-size: 13px;">${song.album} · ${song.year}</span>
-          </div>
-        </div>
-        <div style="margin-left: auto;">
-          <button onclick="playVideoWithId('${song.id}', this)" class="play"><i class="fa-solid fa-play"></i></button>
-        </div>
-      `;
-      similarSongContainer.appendChild(songDiv);
+  // 콘서트 모드 체크
+  const concertTypes = ["concert", "thepresent25", "foreveryoungfinale", "thepresent24", "welcometotheshow"];
+
+  if (concertTypes.includes(pageType)) {
+    // 제목 문구 변경
+    if (h2Title) {
+      h2Title.innerHTML = `콘서트의 감동을<br /><span style="color: #57c3c5">다시 한번</span> 돌아보기`;
+    }
+
+    // 콘서트 모드: 타입에 따라 다른 세트리스트 필드 선택
+    let setlistStr = "";
+    let concertLabel = "콘서트 세트리스트";
+
+    if (pageType === "decade" || pageType === "concert") {
+      setlistStr = data.concert_setlist;
+      concertLabel = "The DECADE 세트리스트";
+    } else if (pageType === "thepresent25") {
+      setlistStr = data.concert_thepresent25;
+      concertLabel = "The Present (2025) 세트리스트";
+    } else if (pageType === "thedecade") {
+      setlistStr = data.concert_thedecade;
+      concertLabel = "The DECADE 세트리스트";
+    } else if (pageType === "thedecade") {
+      setlistStr = data.concert_thedecade;
+      concertLabel = "The DECADE 세트리스트";
+    } else if (pageType === "foreveryoungfinale") {
+      setlistStr = data.concert_foreveryoungfinale;
+      concertLabel = "FOREVER YOUNG FINALE 세트리스트";
+    } else if (pageType === "thepresent24") {
+      setlistStr = data.concert_thepresent24;
+      concertLabel = "The Present (2024) 세트리스트";
+    } else if (pageType === "welcometotheshow") {
+      setlistStr = data.concert_welcometotheshow;
+      concertLabel = "Welcome to the Show 세트리스트";
+    }
+
+    const setlist = setlistStr.split("\n").map(t => t.trim()).filter(t => t !== "");
+    currentPlaylist = setlist.map(title => {
+      return allSongs.find(s => s.title.toLowerCase() === title.toLowerCase());
+    }).filter(s => s !== undefined);
+
+    songDetail.innerHTML = `<i class="fa-solid fa-microphone-lines"></i> ${concertLabel}`;
+    similarDetail.style.display = "none";
+
+    currentPlaylist.forEach(song => {
+      songListContainer.appendChild(createSongElement(song));
     });
   } else {
-    similarDetail.style.display = "none";
+    // 일반 모드: 키워드 필터링
+    const filteredSongs = shuffleArray(allSongs.filter((song) =>
+      keywords.every((keyword) => song.keywords.includes(keyword))
+    ));
+    const filteredSimilar = shuffleArray(allSongs.filter((song) =>
+      keywords.slice(1).some((keyword) => song.keywords.includes(keyword))
+    ));
+
+    const combined = [...filteredSongs, ...filteredSimilar];
+    currentPlaylist = Array.from(new Set(combined.map(s => s.id)))
+      .map(id => combined.find(s => s.id === id));
+
+    if (filteredSongs.length > 0) {
+      songDetail.style.display = "block";
+      filteredSongs.forEach(song => songListContainer.appendChild(createSongElement(song)));
+    } else {
+      songDetail.style.display = "none";
+      songDetailAlert.style.display = "block";
+    }
+
+    if (filteredSimilar.length > 0) {
+      similarDetail.style.display = "block";
+      filteredSimilar.forEach(song => similarSongContainer.appendChild(createSongElement(song)));
+    } else {
+      similarDetail.style.display = "none";
+    }
   }
 
-  // 갯수와 시간 출력
+  // 곡 개수와 총 시간 계산
   const countSongs = document.getElementById("count");
   const countTime = document.getElementById("time");
-  const value = filteredSongs.length + filteredSongsByAnyKeyword2Or3.length;
+  const value = currentPlaylist.length;
   countSongs.innerHTML = value;
 
   const time = value * 3;
@@ -125,117 +221,109 @@ async function displayFilteredSongs() {
   }
 }
 
-displayFilteredSongs();
-
-// 유튜브 영상 재생
-let player;
-let currentPlayerId;
-
-function refreshPage() {
-  location.reload();
+function createSongElement(song) {
+  const songDiv = document.createElement("div");
+  songDiv.classList.add("song-list", "mb-3");
+  songDiv.innerHTML = `
+    <div style="display: flex; align-items: center;">
+      <img src="${song.cover}" alt="${song.title} 앨범 커버" class="album" />
+      <div style="margin-left: 10px;">
+        <span style="font-size: 18px;" class="bold">${song.title}</span>
+        <br />
+        <span style="font-size: 13px;">${song.album} · ${song.year}</span>
+      </div>
+    </div>
+    <div style="margin-left: auto;">
+      <button onclick="toggleVideo('${song.id}')" class="play" data-video-id="${song.id}"><i class="fa-solid fa-play"></i></button>
+    </div>
+  `;
+  return songDiv;
 }
 
-function playVideoWithId(videoId, button) {
-  if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-    window.location.href = "https://www.youtube.com/watch?v=" + videoId;
+displayFilteredSongs();
+
+// 비디오 재생/일시정지 토글
+function toggleVideo(videoId) {
+  if (!isApiLoaded || !player) return;
+
+  if (currentPlayingId === videoId) {
+    if (isPlaying) {
+      player.pauseVideo();
+    } else {
+      player.playVideo();
+    }
   } else {
-    let isPlaying = false;
-    var tag = document.createElement("script");
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName("script")[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-    function onPlayerReady(event) {
-      event.target.setPlaybackQuality("small");
-      player = event.target;
-      button.innerHTML = `<i class="fa-solid fa-pause"></i>`;
-      currentPlayerId = button.id;
-      isPlaying = true;
-    }
-
-    function onPlayerStateChange(event) {
-      isPlaying = event.data === YT.PlayerState.PLAYING;
-    }
-
-    window.onYouTubeIframeAPIReady = function () {
-      player = new YT.Player("player", {
-        height: "0",
-        width: "0",
-        videoId: videoId,
-        playerVars: {
-          autoplay: 1,
-          controls: 0,
-          showinfo: 0,
-          modestbranding: 1,
-          loop: 1,
-          fs: 0,
-          cc_load_policy: 0,
-          iv_load_policy: 3,
-          autohide: 0,
-        },
-        events: {
-          onReady: onPlayerReady,
-          onStateChange: onPlayerStateChange,
-        },
-      });
-    };
-
-    if (!/iPhone|iPod/.test(navigator.userAgent)) {
-      button.onclick = refreshPage;
-    }
+    currentPlayingId = videoId;
+    player.loadVideoById(videoId);
+    player.playVideo();
+    updatePlayerBarUI();
   }
 }
 
-// 플레이리스트 버튼 클릭 시 모달 표시
+// 상단 플레이어 조작 버튼
+document.getElementById("mainPlayBtn").addEventListener("click", function() {
+  if (!player) return;
+  if (isPlaying) {
+    player.pauseVideo();
+  } else {
+    player.playVideo();
+  }
+});
+
+document.getElementById("nextBtn").addEventListener("click", function() {
+  if (player && player.nextVideo) player.nextVideo();
+});
+
+document.getElementById("prevBtn").addEventListener("click", function() {
+  if (player && player.previousVideo) player.previousVideo();
+});
+
+document.getElementById("closePlayerBtn").addEventListener("click", function() {
+  if (player) {
+    player.stopVideo();
+    document.getElementById("playerBar").style.display = "none";
+    currentPlayingId = null;
+    updatePlayButtons();
+  }
+});
+
+// 전체 재생 버튼
+document.getElementById("playAllInternal").addEventListener("click", function() {
+  if (!isApiLoaded || !player || currentPlaylist.length === 0) return;
+  
+  const videoIds = currentPlaylist.map(song => song.id);
+  currentPlayingId = videoIds[0];
+  player.loadPlaylist(videoIds);
+  player.setShuffle(false);
+  player.playVideo();
+  updatePlayerBarUI();
+});
+
+// 유튜브로 내보내기 모달
 document.getElementById("makepli").addEventListener("click", function () {
   const modal = new bootstrap.Modal(document.getElementById("exportModal"));
   modal.show();
 });
 
-// 유튜브로 내보내기 핵심 로직
 async function exportToYouTube(type) {
-  const filteredSongs = await filterSongsByAllKeywords(keywords);
   let songsToExport = [];
-
-  if (type === "all") {
-    const filteredSongsByAnyKeyword2Or3 = await filterSongsByAnyKeyword2Or3(
-      keywords.slice(1)
-    );
-    const allSongs = [...filteredSongs, ...filteredSongsByAnyKeyword2Or3];
-    // 중복 제거
-    songsToExport = Array.from(new Set(allSongs.map(s => s.id)))
-      .map(id => allSongs.find(s => s.id === id));
+  if (type === "all" || pageType === "concert" || pageType === "thepresent25") {
+    songsToExport = currentPlaylist;
   } else {
-    songsToExport = filteredSongs;
+    const data = await fetchData();
+    const exactMatch = data.songs.filter((song) =>
+      keywords.every((keyword) => song.keywords.includes(keyword))
+    );
+    songsToExport = exactMatch;
   }
 
   if (songsToExport.length >= 1) {
-    const chunkSize = 50;
-    const songChunks = [];
-    for (let i = 0; i < songsToExport.length; i += chunkSize) {
-      songChunks.push(songsToExport.slice(i, i + chunkSize));
-    }
-
-    songChunks.forEach((chunk, index) => {
-      const videoIds = chunk.map((song) => song.id).join(",");
-      const playlistUrl = `https://www.youtube.com/watch_videos?video_ids=${videoIds}`;
-
-      setTimeout(() => {
-        window.open(playlistUrl, "_blank");
-      }, index * 1000);
-    });
+    const videoIds = songsToExport.map((song) => song.id).join(",");
+    window.open(`https://www.youtube.com/watch_videos?video_ids=${videoIds}`, "_blank");
   } else {
     alert("내보낼 노래가 없습니다!");
   }
-
-  // 모달 닫기
-  const modalElement = document.getElementById("exportModal");
-  const modal = bootstrap.Modal.getInstance(modalElement);
-  if (modal) {
-    modal.hide();
-  }
 }
 
-// 모달 버튼 이벤트 리스너
 document.getElementById("exportAll").addEventListener("click", () => exportToYouTube("all"));
 document.getElementById("exportExact").addEventListener("click", () => exportToYouTube("exact"));

@@ -1,14 +1,6 @@
 
 @import url("pretendard.css");
 
-@f-ont-face {
-  font-family: "WavvePADO-Regular";
-  src: url("font/WavvePADO-Regular.woff2")
-    format("woff2");
-  font-weight: normal;
-  font-style: normal;
-}
-
 @media (min-width: 465px) {
   .container {
     width: 460px !important;

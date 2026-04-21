@@ -30,7 +30,7 @@
       "album": "Fourever",
       "cover": "assets/img/album/f.png",
       "keywords": ["흥을 불러오는", "사랑에 빠졌을 때", "벅차오르는"],
-      "id": "RowlrvmyFEk"
+      "id": "ViDjwX-yfgc"
     },
     {
       "title": "Love me or Leave me",
@@ -547,7 +547,7 @@
       "year": 2017,
       "album": "Every DAY6 September",
       "cover": "assets/img/album/eds.png",
-      "keywords": ["감성을 타고 싶다면", "이별 후", "신나게"],
+      "keywords": ["흥을 불러오는", "이별 후", "신나게"],
       "id": "4DSuRqiK9gk"
     },
     {
@@ -673,15 +673,7 @@
       "album": "Every DAY6 November",
       "cover": "assets/img/album/edn.png",
       "keywords": ["감성을 타고 싶다면", "잔잔한/슬픈"],
-      "id": "IUGSKW12lHY"
-    },
-    {
-      "title": "혼자야",
-      "year": 2017,
-      "album": "Every DAY6 November",
-      "cover": "assets/img/album/edn.png",
-      "keywords": ["감성을 타고 싶다면", "잔잔한/슬픈"],
-      "id": "IUGSKW12lHY"
+      "id": "Yl-YMoZ2pmk"
     },
     {
       "title": "Sing Me",
@@ -1582,5 +1574,11 @@
       "keywords": ["감성을 타고 싶다면", "누군가를 좋아한다면", "벅차오르는"],
       "id": "gKKxWgL7NaM"
     }
-  ]
+  ],
+  "concert_setlist": "Welcome to the Show\nHappy\nPower of Love\n널 제외한 나의 뇌\n나만 슬픈 엔딩\n사랑하게 해주라\n그게 너의 사랑인지 몰랐어\n한 페이지가 될 수 있게\n예뻤어",
+  "concert_thepresent25": "남겨둘게\nBetter Better\n무적\n둘도 아닌 하나\nHow to Love\nMan in a Movie\n해야 뜨지 말아 줘\nDANCE DANCE\nMy Way\nNot Fine (나빠)\nINSIDE OUT\n아 왜 (I Wait)\n널 제외한 나의 뇌\n나만 슬픈 엔딩\nLove me or Leave me\nShoot Me\n아픈길\n별들 앞에서\n우리의 계절\n날아라! 드림라이더\nHAPPY\n바래\n꿈의 버스\nLovin' the Christmas\nFree하게\nSing Me\n한 페이지가 될 수 있게\nBest Part",
+  "concert_thedecade" : "한 페이지가 될 수 있게\n녹아내려요\nHAPPY\nWelcome to the Show\nDisco Day\nThe Power of Love\n행복했던 날들이었다\n마라톤\nMaybe Tomorrow\nZombie\n예뻤어\n놓아 놓아 놓아\n반드시 웃는다\nYou make Me\nLove me or Leave me\nWARNING!\nSweet Chaos\nShoot Me\nAfraid\n우리 앞으로 더 사랑하자\n좋아합니다\n우리의 계절\nCongratulations\n꿈의 버스\nINSIDE OUT\n바래\nHealer\nSing Me\n어쩌다 보니\nFree하게\nBest Part",
+  "concert_foreveryoungfinale" : "Best Part\nBetter Better\nHealer\n한 페이지가 될 수 있게\n그녀가 웃었다\nMan in a Movie\nCOUNTER\nSay Wow\n아직 거기 살아\n예뻤어\n놓아 놓아 놓아 (Rebooted Ver.)\nCongratulations\nI'm Fine\n아 왜 (I Wait)\nLove me or Leave me\nShoot Me\n괴물\nZombie\n녹아내려요\nHAPPY\n바래\n도와줘요 Rock&Roll\n망겜\nDANCE DANCE\nFree하게\nMaybe Tomorrow\n끝났지\n행복했던 날들이었다\nThe Power of Love\nMy Day\nSing Me\n어쩌다 보니\nWelcome to the Show\nBest Part",
+  "concert_thepresent24" : "Colors\n누군가 필요해\n괴물\n아직 거기 살아\n그게 너의 사랑인지 몰랐어\n예뻤어\n마치 흘러가는 바람처럼\nCongratulations\nCOUNTER\n망겜\n도와줘요 Rock&Roll\n행복했던 날들이었다\nHAPPY\nDANCE DANCE\n어쩌다 보니\n아 왜 (I Wait)\n어떻게 말해\nShoot Me + Young K Solo\nI'm Fine\n나만 슬픈 엔딩\nSweet Chaos\nLove Me or Leave Me\nSay Wow\n바래\nSing Me\nFree하게\nWelcome to the Show\nBest Part\n녹아내려요\n한 페이지가 될 수 있게",
+  "concert_welcometotheshow" : "Welcome to the Show\nBetter Better\nLOVE PARADE\nThe Power of Love\n행복했던 날들이었다\nDeep in love\nMan in a Movie\n둘도 아닌 하나\n사랑하게 해주라\n그게 너의 사랑인지 몰랐어\n그럴 텐데\n예뻤어\nSweet Chaos\n나만 슬픈 엔딩\nFor me\nHealer\n바래\nHAPPY\n널 제외한 나의 뇌 (Get The Hell Out)\nDANCE DANCE\n어쩌다 보니\nMy Day\nSing Me\nSay Wow\nFree하게 + Outro\nBest Part\n한 페이지가 될 수 있게\nWelcome to the Show\nBest Part"
 }
