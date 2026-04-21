@@ -15,6 +15,7 @@ let isApiLoaded = false;
 let currentPlaylist = [];
 let isPlaying = false;
 let currentPlayingId = null;
+let progressInterval;
 
 // YouTube API 스크립트 로드
 const tag = document.createElement("script");
@@ -48,7 +49,79 @@ window.onYouTubeIframeAPIReady = function () {
 
 function onPlayerReady(event) {
   event.target.setPlaybackQuality("small");
+  // 초기 볼륨 설정 및 UI 업데이트
+  const initialVolume = player.getVolume();
+  updateVolumeUI(initialVolume);
 }
+
+// 볼륨 조절 관련 함수
+function updateVolumeUI(volume) {
+  const volumeBar = document.getElementById("volumeSliderBar");
+  const volumeIcon = document.getElementById("volumeIcon");
+  
+  if (volumeBar) {
+    volumeBar.style.width = volume + "%";
+  }
+  
+  if (volumeIcon) {
+    if (volume === 0) {
+      volumeIcon.className = "fa-solid fa-volume-xmark";
+    } else if (volume < 50) {
+      volumeIcon.className = "fa-solid fa-volume-low";
+    } else {
+      volumeIcon.className = "fa-solid fa-volume-high";
+    }
+  }
+}
+
+// 볼륨 조절 로직 (드래그 및 클릭)
+const volumeContainer = document.getElementById("volumeSliderContainer");
+let isDraggingVolume = false;
+
+function handleVolumeAction(e) {
+  if (!player || !player.setVolume) return;
+  
+  const rect = volumeContainer.getBoundingClientRect();
+  const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
+  let x = clientX - rect.left;
+  const width = rect.width;
+  
+  // 범위 제한 (0 ~ 100%)
+  x = Math.max(0, Math.min(x, width));
+  const newVolume = Math.round((x / width) * 100);
+  
+  player.setVolume(newVolume);
+  updateVolumeUI(newVolume);
+}
+
+volumeContainer.addEventListener("mousedown", (e) => {
+  isDraggingVolume = true;
+  handleVolumeAction(e);
+});
+
+volumeContainer.addEventListener("touchstart", (e) => {
+  isDraggingVolume = true;
+  handleVolumeAction(e);
+}, { passive: false });
+
+window.addEventListener("mousemove", (e) => {
+  if (isDraggingVolume) handleVolumeAction(e);
+});
+
+window.addEventListener("touchmove", (e) => {
+  if (isDraggingVolume) {
+    handleVolumeAction(e);
+    e.preventDefault(); // 스크롤 방지
+  }
+}, { passive: false });
+
+window.addEventListener("mouseup", () => {
+  isDraggingVolume = false;
+});
+
+window.addEventListener("touchend", () => {
+  isDraggingVolume = false;
+});
 
 function onPlayerStateChange(event) {
   const mainPlayBtn = document.getElementById("mainPlayBtn");
@@ -61,12 +134,50 @@ function onPlayerStateChange(event) {
     }
     if (mainPlayBtn) mainPlayBtn.className = "fa-solid fa-pause";
     updatePlayButtons();
+    startProgressTimer();
   } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
     isPlaying = false;
     if (mainPlayBtn) mainPlayBtn.className = "fa-solid fa-play";
     updatePlayButtons();
+    stopProgressTimer();
   }
 }
+
+// 재생바 관련 함수
+function startProgressTimer() {
+  stopProgressTimer();
+  progressInterval = setInterval(updateProgress, 1000);
+}
+
+function stopProgressTimer() {
+  if (progressInterval) clearInterval(progressInterval);
+}
+
+function updateProgress() {
+  if (player && player.getCurrentTime && player.getDuration) {
+    const currentTime = player.getCurrentTime();
+    const duration = player.getDuration();
+    if (duration > 0) {
+      const progressPercent = (currentTime / duration) * 100;
+      document.getElementById("progressBar").style.width = progressPercent + "%";
+    }
+  }
+}
+
+// 재생바 클릭 시 탐색
+document.getElementById("progressContainer").addEventListener("click", function(e) {
+  if (player && player.getDuration) {
+    const rect = this.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const width = rect.width;
+    const duration = player.getDuration();
+    if (duration > 0) {
+      const seekTo = (x / width) * duration;
+      player.seekTo(seekTo, true);
+      updateProgress();
+    }
+  }
+});
 
 // 상단 플레이어 바 UI 업데이트
 function updatePlayerBarUI() {
@@ -94,8 +205,8 @@ function updatePlayButtons() {
 
 // 플레이어 바 클릭 시 큰 앨범 아트 토글
 document.getElementById("playerBar").addEventListener("click", function(e) {
-  // 제어 버튼(재생, 다음 곡 등)을 클릭한 경우에는 토글하지 않음
-  if (e.target.closest(".player-controls")) return;
+  // 제어 버튼이나 재생바를 클릭한 경우에는 토글하지 않음
+  if (e.target.closest(".player-controls") || e.target.closest(".progress-container")) return;
   
   const container = document.getElementById("albumArtContainer");
   if (container.classList.contains("show")) {
