@@ -132,7 +132,7 @@ async function displayFilteredSongs() {
   const allSongs = data.songs;
 
   // 콘서트 모드 체크
-  const concertTypes = ["concert", "thepresent25", "foreveryoungfinale", "thepresent24", "welcometotheshow"];
+  const concertTypes = ["concert", "thepresent25", "foreveryoungfinale", "thepresent24", "welcometotheshow", "thedecade"];
 
   if (concertTypes.includes(pageType)) {
     // 제목 문구 변경
@@ -150,9 +150,6 @@ async function displayFilteredSongs() {
     } else if (pageType === "thepresent25") {
       setlistStr = data.concert_thepresent25;
       concertLabel = "The Present (2025) 세트리스트";
-    } else if (pageType === "thedecade") {
-      setlistStr = data.concert_thedecade;
-      concertLabel = "The DECADE 세트리스트";
     } else if (pageType === "thedecade") {
       setlistStr = data.concert_thedecade;
       concertLabel = "The DECADE 세트리스트";
