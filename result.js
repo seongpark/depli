@@ -206,6 +206,7 @@ async function loadLyrics(videoId) {
   syncedLyricsLines = [];
   activeLyricIndex = -1;
   lyricsContainer.classList.remove("plain-lyrics");
+  setLyricsContainerVisibility(true);
   lyricsContainer.innerText = "가사를 불러오는 중...";
 
   try {
@@ -226,18 +227,32 @@ async function loadLyrics(videoId) {
         } else if (plainLyrics) {
           renderPlainLyrics(plainLyrics, lyricsContainer);
         } else {
-          lyricsContainer.innerText = "등록된 가사가 없습니다.";
+          hideLyricsContainer(lyricsContainer);
         }
       } else {
-        lyricsContainer.innerText = "등록된 가사가 없습니다.";
+        hideLyricsContainer(lyricsContainer);
       }
     } else {
-      lyricsContainer.innerText = "등록된 가사가 없습니다.";
+      hideLyricsContainer(lyricsContainer);
     }
   } catch (error) {
     console.error("Lyrics API error:", error);
-    lyricsContainer.innerText = "네트워크 오류로 가사를 불러오지 못했습니다.";
+    hideLyricsContainer(lyricsContainer);
   }
+}
+
+function setLyricsContainerVisibility(isVisible) {
+  const lyricsContainer = document.getElementById("lyricsContainer");
+  if (!lyricsContainer) return;
+  lyricsContainer.style.display = isVisible ? "block" : "none";
+}
+
+function hideLyricsContainer(lyricsContainer) {
+  syncedLyricsLines = [];
+  activeLyricIndex = -1;
+  lyricsContainer.classList.remove("plain-lyrics");
+  lyricsContainer.innerHTML = "";
+  setLyricsContainerVisibility(false);
 }
 
 function parseSyncedLyrics(syncedLyrics) {
@@ -266,10 +281,11 @@ function renderSyncedLyrics(syncedLyrics, lyricsContainer) {
   lyricsContainer.classList.remove("plain-lyrics");
 
   if (syncedLyricsLines.length === 0) {
-    lyricsContainer.innerText = "등록된 가사가 없습니다.";
+    hideLyricsContainer(lyricsContainer);
     return;
   }
 
+  setLyricsContainerVisibility(true);
   lyricsContainer.innerHTML = "";
 
   syncedLyricsLines.forEach((line, index) => {
@@ -285,6 +301,7 @@ function renderPlainLyrics(plainLyrics, lyricsContainer) {
   syncedLyricsLines = [];
   activeLyricIndex = -1;
   lyricsContainer.classList.add("plain-lyrics");
+  setLyricsContainerVisibility(true);
   lyricsContainer.innerHTML = "";
 
   plainLyrics
