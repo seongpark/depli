@@ -243,8 +243,12 @@ async function loadLyrics(videoId) {
 
 function setLyricsContainerVisibility(isVisible) {
   const lyricsContainer = document.getElementById("lyricsContainer");
+  const largeAlbumArt = document.getElementById("largeAlbumArt");
   if (!lyricsContainer) return;
   lyricsContainer.style.display = isVisible ? "block" : "none";
+  if (largeAlbumArt) {
+    largeAlbumArt.style.marginBottom = isVisible ? "20px" : "0";
+  }
 }
 
 function hideLyricsContainer(lyricsContainer) {
