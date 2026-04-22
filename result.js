@@ -341,6 +341,12 @@ function updatePlayButtons() {
   });
 }
 
+function setPlayerBarCoverVisibility(isVisible) {
+  const currentCover = document.getElementById("currentCover");
+  if (!currentCover) return;
+  currentCover.style.display = isVisible ? "block" : "none";
+}
+
 // 플레이어 바 클릭 시 큰 앨범 아트 토글
 document.getElementById("playerBar").addEventListener("click", function(e) {
   // 제어 버튼이나 재생바를 클릭한 경우에는 토글하지 않음
@@ -349,6 +355,7 @@ document.getElementById("playerBar").addEventListener("click", function(e) {
   const container = document.getElementById("albumArtContainer");
   if (container.classList.contains("show")) {
     container.classList.remove("show");
+    setPlayerBarCoverVisibility(true);
     setTimeout(() => {
       if (!container.classList.contains("show")) {
         container.style.display = "none";
@@ -356,6 +363,7 @@ document.getElementById("playerBar").addEventListener("click", function(e) {
     }, 300); // transition 시간과 동일하게 설정
   } else {
     container.style.display = "flex";
+    setPlayerBarCoverVisibility(false);
     // display: flex가 적용된 직후에는 transition이 작동하지 않으므로 rAF 사용
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
@@ -547,6 +555,7 @@ document.getElementById("closePlayerBtn").addEventListener("click", function() {
     const container = document.getElementById("albumArtContainer");
     container.classList.remove("show");
     container.style.display = "none";
+    setPlayerBarCoverVisibility(true);
     currentPlayingId = null;
     updatePlayButtons();
   }
