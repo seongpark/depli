@@ -187,6 +187,7 @@ function updatePlayerBarUI() {
   const currentSong = currentPlaylist.find(s => s.id === currentPlayingId);
   if (currentSong) {
     document.getElementById("playerBar").style.display = "flex";
+    setRemakeButtonVisibility(false);
     document.getElementById("currentCover").src = currentSong.cover;
     document.getElementById("largeAlbumArt").src = currentSong.cover;
     document.getElementById("currentTitle").innerText = currentSong.title;
@@ -204,6 +205,7 @@ async function loadLyrics(videoId) {
 
   syncedLyricsLines = [];
   activeLyricIndex = -1;
+  lyricsContainer.classList.remove("plain-lyrics");
   lyricsContainer.innerText = "가사를 불러오는 중...";
 
   try {
@@ -261,6 +263,7 @@ function parseSyncedLyrics(syncedLyrics) {
 function renderSyncedLyrics(syncedLyrics, lyricsContainer) {
   syncedLyricsLines = parseSyncedLyrics(syncedLyrics);
   activeLyricIndex = -1;
+  lyricsContainer.classList.remove("plain-lyrics");
 
   if (syncedLyricsLines.length === 0) {
     lyricsContainer.innerText = "등록된 가사가 없습니다.";
@@ -281,6 +284,7 @@ function renderSyncedLyrics(syncedLyrics, lyricsContainer) {
 function renderPlainLyrics(plainLyrics, lyricsContainer) {
   syncedLyricsLines = [];
   activeLyricIndex = -1;
+  lyricsContainer.classList.add("plain-lyrics");
   lyricsContainer.innerHTML = "";
 
   plainLyrics
@@ -345,6 +349,12 @@ function setPlayerBarCoverVisibility(isVisible) {
   const currentCover = document.getElementById("currentCover");
   if (!currentCover) return;
   currentCover.style.display = isVisible ? "block" : "none";
+}
+
+function setRemakeButtonVisibility(isVisible) {
+  const remakeButton = document.querySelector(".letsmake");
+  if (!remakeButton) return;
+  remakeButton.style.display = isVisible ? "" : "none";
 }
 
 // 플레이어 바 클릭 시 큰 앨범 아트 토글
@@ -552,6 +562,7 @@ document.getElementById("closePlayerBtn").addEventListener("click", function() {
   if (player) {
     player.stopVideo();
     document.getElementById("playerBar").style.display = "none";
+    setRemakeButtonVisibility(true);
     const container = document.getElementById("albumArtContainer");
     container.classList.remove("show");
     container.style.display = "none";
