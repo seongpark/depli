@@ -16,6 +16,8 @@ let currentPlaylist = [];
 let isPlaying = false;
 let currentPlayingId = null;
 let progressInterval;
+let syncedLyricsLines = [];
+let activeLyricIndex = -1;
 
 // YouTube API 스크립트 로드
 const tag = document.createElement("script");
@@ -161,6 +163,7 @@ function updateProgress() {
       const progressPercent = (currentTime / duration) * 100;
       document.getElementById("progressBar").style.width = progressPercent + "%";
     }
+    updateActiveLyric(currentTime);
   }
 }
 
@@ -188,7 +191,142 @@ function updatePlayerBarUI() {
     document.getElementById("largeAlbumArt").src = currentSong.cover;
     document.getElementById("currentTitle").innerText = currentSong.title;
     document.getElementById("currentAlbum").innerText = `${currentSong.album} · ${currentSong.year}`;
+    loadLyrics(currentPlayingId);
   }
+}
+
+async function loadLyrics(videoId) {
+  const lyricsContainer = document.getElementById("lyricsContainer");
+  if (!lyricsContainer) return;
+
+  const currentSong = currentPlaylist.find(s => s.id === videoId);
+  if (!currentSong) return;
+
+  syncedLyricsLines = [];
+  activeLyricIndex = -1;
+  lyricsContainer.innerText = "가사를 불러오는 중...";
+
+  try {
+    // LRCLIB API 사용 (검색 쿼리: 노래 제목 + 아티스트)
+    // 기본적으로 DAY6 노래이므로 "DAY6"를 추가하여 검색 정확도를 높임
+    const query = encodeURIComponent(`${currentSong.title} DAY6`);
+    const response = await fetch(`https://lrclib.net/api/search?q=${query}`);
+    
+    if (response.ok) {
+      const data = await response.json();
+      if (data && data.length > 0) {
+        const syncedLyrics = data[0].syncedLyrics;
+        const plainLyrics = data[0].plainLyrics;
+
+        if (syncedLyrics) {
+          renderSyncedLyrics(syncedLyrics, lyricsContainer);
+          updateActiveLyric(player && player.getCurrentTime ? player.getCurrentTime() : 0);
+        } else if (plainLyrics) {
+          renderPlainLyrics(plainLyrics, lyricsContainer);
+        } else {
+          lyricsContainer.innerText = "등록된 가사가 없습니다.";
+        }
+      } else {
+        lyricsContainer.innerText = "등록된 가사가 없습니다.";
+      }
+    } else {
+      lyricsContainer.innerText = "등록된 가사가 없습니다.";
+    }
+  } catch (error) {
+    console.error("Lyrics API error:", error);
+    lyricsContainer.innerText = "네트워크 오류로 가사를 불러오지 못했습니다.";
+  }
+}
+
+function parseSyncedLyrics(syncedLyrics) {
+  return syncedLyrics
+    .split("\n")
+    .map((line) => line.trim())
+    .map((line) => {
+      const match = line.match(/^\[(\d{2}):(\d{2})(?:\.(\d{2,3}))?\](.*)$/);
+      if (!match) return null;
+
+      const minutes = Number(match[1]);
+      const seconds = Number(match[2]);
+      const fraction = match[3] ? Number(`0.${match[3]}`) : 0;
+
+      return {
+        time: (minutes * 60) + seconds + fraction,
+        text: match[4].trim() || " ",
+      };
+    })
+    .filter((line) => line && line.text);
+}
+
+function renderSyncedLyrics(syncedLyrics, lyricsContainer) {
+  syncedLyricsLines = parseSyncedLyrics(syncedLyrics);
+  activeLyricIndex = -1;
+
+  if (syncedLyricsLines.length === 0) {
+    lyricsContainer.innerText = "등록된 가사가 없습니다.";
+    return;
+  }
+
+  lyricsContainer.innerHTML = "";
+
+  syncedLyricsLines.forEach((line, index) => {
+    const lineElement = document.createElement("div");
+    lineElement.className = "lyric-line";
+    lineElement.dataset.index = String(index);
+    lineElement.textContent = line.text;
+    lyricsContainer.appendChild(lineElement);
+  });
+}
+
+function renderPlainLyrics(plainLyrics, lyricsContainer) {
+  syncedLyricsLines = [];
+  activeLyricIndex = -1;
+  lyricsContainer.innerHTML = "";
+
+  plainLyrics
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line)
+    .forEach((line) => {
+      const lineElement = document.createElement("div");
+      lineElement.className = "lyric-line";
+      lineElement.textContent = line;
+      lyricsContainer.appendChild(lineElement);
+    });
+}
+
+function updateActiveLyric(currentTime) {
+  const lyricsContainer = document.getElementById("lyricsContainer");
+  if (!lyricsContainer || syncedLyricsLines.length === 0) return;
+
+  let nextActiveIndex = -1;
+  for (let i = 0; i < syncedLyricsLines.length; i++) {
+    if (currentTime >= syncedLyricsLines[i].time) {
+      nextActiveIndex = i;
+    } else {
+      break;
+    }
+  }
+
+  if (nextActiveIndex === activeLyricIndex) return;
+
+  const previousActive = lyricsContainer.querySelector(".lyric-line.active");
+  if (previousActive) {
+    previousActive.classList.remove("active");
+  }
+
+  activeLyricIndex = nextActiveIndex;
+
+  if (activeLyricIndex < 0) return;
+
+  const currentLine = lyricsContainer.querySelector(`[data-index="${activeLyricIndex}"]`);
+  if (!currentLine) return;
+
+  currentLine.classList.add("active");
+  currentLine.scrollIntoView({
+    behavior: "smooth",
+    block: "center",
+  });
 }
 
 function updatePlayButtons() {
