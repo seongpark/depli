@@ -44,6 +44,7 @@ window.onYouTubeIframeAPIReady = function () {
       cc_load_policy: 0,
       iv_load_policy: 3,
       autohide: 0,
+      playsinline: 1, // iOS Safari에서 웹 내 재생 허용
     },
     events: {
       onReady: onPlayerReady,
@@ -690,12 +691,19 @@ function playFromPlaylist(startVideoId) {
 
   const videoIds = currentPlaylist.map(song => song.id);
   currentPlayingId = startVideoId;
+  
+  // iOS 대응: 사용자 클릭 이벤트 스택 내에서 즉시 playVideo를 호출해야 함
+  // loadPlaylist는 내부적으로 비동기 처리가 강해 차단될 확률이 높음
   player.loadPlaylist({
     playlist: videoIds,
     index: startIndex,
   });
+  
   player.setShuffle(false);
+  
+  // 강제 재생 시도
   player.playVideo();
+  
   updatePlayerBarUI();
 }
 

@@ -199,16 +199,23 @@
       }
       .overlay-song-title {
         font-size: 20px;
-        font-weight: 800;
+        font-weight: 500;
         line-height: 1.25;
       }
       .overlay-song-album {
         margin-top: 6px;
+        margin-bottom: 15px; /* 15px로 조정 */
         font-size: 12px;
         color: rgba(255, 255, 255, 0.72);
+        transition: margin-bottom 0.3s ease;
+      }
+      @media (min-width: 420px) {
+        .overlay-song-album {
+          margin-bottom: 0; /* 넓은 화면에서는 제거 */
+        }
       }
       .overlay-playlist-meta {
-        margin: auto 0; /* 수직 중앙 정렬 핵심 */
+        margin-top: 10px;
         position: relative;
         text-align: left;
         padding: 0 24px;
@@ -278,7 +285,7 @@
       }
       .overlay-playlist-title {
         font-size: 14px;
-        font-weight: 700;
+        font-weight: 500;
         color: rgba(255, 255, 255, 0.9);
         line-height: 1.25;
         white-space: nowrap;
@@ -389,7 +396,7 @@
       .lyric-line.active {
         opacity: 1;
         color: #fff;
-        font-weight: 800;
+        font-weight: 500;
         transform: scale(1.06);
         filter: blur(0);
       }
@@ -418,8 +425,7 @@
         justify-content: center;
         gap: 44px;
         width: 100%;
-        margin-top: auto;
-        margin-bottom: 20px;
+        margin: auto 0; /* 수직 중앙 정렬 */
         padding: 0 24px;
         transition: padding 0.3s ease;
       }
@@ -516,7 +522,7 @@
       }
       @media (hover: none) and (pointer: coarse) {
         .volume-container {
-          visibility: hidden;
+          display: none;
         }
       }
     </style>
