@@ -442,28 +442,37 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 80px;
+        gap: 12px;
         width: 100%;
-        margin-top: 10px;
+        margin-top: 15px;
       }
       .overlay-control-btn {
-        width: 42px;
-        height: 42px;
+        width: auto;
+        height: 32px;
+        padding: 0 14px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        border: none;
-        border-radius: 50%;
+        gap: 6px;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 99px;
         background: transparent;
-        color: white;
-        font-size: 16px;
-        transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 12px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        cursor: pointer;
+      }
+      .overlay-control-btn:active {
+        background: rgba(255, 255, 255, 0.1);
+        transform: scale(0.96);
       }
       .overlay-control-btn:disabled {
-        opacity: 0.35;
+        opacity: 0.2;
       }
       .overlay-control-btn.is-off {
-        opacity: 0.48;
+        color: rgba(255, 255, 255, 0.4);
+        border-color: rgba(255, 255, 255, 0.15);
       }
       .overlay-main-controls #overlayPrevBtn,
       .overlay-main-controls #overlayNextBtn {
@@ -661,10 +670,10 @@
 
           <div class="overlay-sub-controls">
             <button type="button" class="overlay-control-btn" id="lyricsToggleBtn" aria-label="가사 끄기">
-              <i class="fa-solid fa-closed-captioning"></i>
+              <i class="fa-solid fa-closed-captioning"></i> 가사
             </button>
             <button type="button" class="overlay-control-btn" id="openYoutubeBtn" aria-label="유튜브에서 열기">
-              <i class="fa-brands fa-youtube"></i>
+              <i class="fa-brands fa-youtube"></i> YouTube
             </button>
           </div>
         </div>
