@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=no;"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
 
     <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
@@ -64,6 +64,33 @@
   </head>
   <body>
     <div class="container" style="margin-top: 40px">
+      <div id="iosInstallPrompt" class="ios-install-prompt" hidden>
+        <div class="ios-install-backdrop"></div>
+        <div class="ios-install-sheet" role="dialog" aria-modal="true" aria-labelledby="iosInstallTitle">
+          <p id="iosInstallEyebrow" class="ios-install-eyebrow">iPhone에서는 앱처럼 쓰는 게 제일 낫습니다</p>
+          <strong id="iosInstallTitle" class="ios-install-title">홈 화면에 데플리 추가 후 사용해보세요</strong>
+          <p id="iosInstallCopy" class="ios-install-copy">
+            Safari에서 여는 경우 설치가 가장 안정적입니다.
+            <i class="fa-solid fa-share-from-square" aria-hidden="true"></i>
+            공유 버튼을 누른 뒤
+            <span class="ios-install-step">홈 화면에 추가</span>를 선택하면 앱처럼 바로 실행됩니다.
+          </p>
+          <div class="ios-install-instruction">
+            <span id="iosInstallStep1">1. Safari 하단의 공유 버튼을 누르세요</span>
+          </div>
+          <div class="ios-install-instruction">
+            <span id="iosInstallStep2">2. <strong>홈 화면에 추가</strong> 메뉴를 선택하세요</span>
+          </div>
+          <div class="ios-install-instruction">
+            <span id="iosInstallStep3">3. 바탕화면에 생긴 아이콘으로 다시 접속해 보세요</span>
+          </div>
+          <div class="ios-install-actions">
+            <button id="iosInstallClose" class="ios-install-primary" type="button">
+              일단 브라우저로 계속
+            </button>
+          </div>
+        </div>
+      </div>
       <h1 class="highlight">
         직접 만드는 나만의<br /><span style="color: #57c3c5">DAY6</span>
         플레이리스트
@@ -209,7 +236,7 @@
           </div>
         </div>
 
-        <div class="fixed-bottom">
+        <div class="fixed-bottom pwa-fixed-bottom">
           <div class="d-grid gap-2 container">
             <button id="createPlaylist" class="btn btn-primary letsmake btn-lg mb-3" type="button">
               지금 만들기
@@ -221,7 +248,7 @@
           <p class="mt-5 mb-5" style="color: #d8d8d8; font-size: 13px">
             Made with <3 by Minseong Park
           </p>
-          <div style="height: 100px"></div>
+          <div class="pwa-bottom-spacer" style="height: 100px"></div>
         </center>
       </div>
     </div>

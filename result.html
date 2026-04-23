@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
     <title>데플리</title>
     <link rel="stylesheet" href="assets/style.css" />
@@ -116,7 +116,7 @@
         display: flex;
         align-items: stretch;
         justify-content: center;
-        padding: 0 0 calc(24px + env(safe-area-inset-bottom, 0px));
+        padding: 0 0 24px;
         background: rgb(8, 10, 16); /* 투명도 제거 */
         opacity: 0;
         visibility: hidden;
@@ -277,7 +277,7 @@
         height: 40px;
         border-radius: 8px;
         object-fit: cover;
-        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px;
+        box-shadow: none;
         flex-shrink: 0;
       }
       .overlay-playlist-text {
@@ -520,6 +520,30 @@
         cursor: grabbing;
         transform: translateY(-50%) scale(1.1);
       }
+      @media (max-height: 700px) {
+        .overlay-shell {
+          padding-top: 0;
+        }
+        .overlay-song-meta {
+          margin-bottom: 10px;
+        }
+        .overlay-song-album {
+          margin-bottom: 0;
+        }
+        .overlay-song-title {
+          font-size: 18px;
+        }
+        .overlay-playlist-meta {
+          margin-top: 5px;
+        }
+        .overlay-main-controls {
+          margin: 10px 0;
+          gap: 30px;
+        }
+        .overlay-sub-controls {
+          display: none;
+        }
+      }
       @media (hover: none) and (pointer: coarse) {
         .volume-container {
           display: none;
@@ -645,7 +669,7 @@
           </div>
         </div>
       </div>
-      <div class="fixed-bottom">
+      <div class="fixed-bottom pwa-fixed-bottom">
         <div class="d-grid container">
           <div id="playerBar">
             <div class="player-content">
@@ -725,6 +749,14 @@
           container.style.display = "block";
         }, 500);
       };
+
+      (function () {
+        var isStandaloneMode =
+          window.matchMedia("(display-mode: standalone)").matches ||
+          window.navigator.standalone === true;
+
+        document.body.classList.toggle("standalone-pwa", isStandaloneMode);
+      })();
     </script>
 
     <script

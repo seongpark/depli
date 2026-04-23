@@ -32,8 +32,8 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 window.onYouTubeIframeAPIReady = function () {
   isApiLoaded = true;
   player = new YT.Player("player", {
-    height: "0",
-    width: "0",
+    height: "1", // 0이 아닌 1로 설정하여 iOS에서 미디어가 활성화되도록 함
+    width: "1",
     playerVars: {
       autoplay: 0,
       controls: 0,
@@ -136,19 +136,29 @@ function onPlayerStateChange(event) {
   if (event.data === YT.PlayerState.PLAYING) {
     isPlaying = true;
     if (player.getVideoData && player.getVideoData().video_id) {
-      currentPlayingId = player.getVideoData().video_id;
-      updatePlayerBarUI();
+      const newVideoId = player.getVideoData().video_id;
+      // 비디오 ID가 실제로 바뀐 경우에만 UI 업데이트 (가사 다시 로드 방지)
+      if (currentPlayingId !== newVideoId) {
+        currentPlayingId = newVideoId;
+        updatePlayerBarUI();
+      }
     }
     if (mainPlayBtn) mainPlayBtn.className = "fa-solid fa-pause fa-fw";
     if (overlayPlayBtn) overlayPlayBtn.className = "fa-solid fa-pause fa-fw";
     updatePlayButtons();
     startProgressTimer();
-  } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+  } else if (event.data === YT.PlayerState.PAUSED) {
     isPlaying = false;
     if (mainPlayBtn) mainPlayBtn.className = "fa-solid fa-play fa-fw";
     if (overlayPlayBtn) overlayPlayBtn.className = "fa-solid fa-play fa-fw";
     updatePlayButtons();
     stopProgressTimer();
+  } else if (event.data === YT.PlayerState.ENDED) {
+    isPlaying = false;
+    // 다음 곡으로 자동 넘어가도록 강제 호출 (iOS 대응)
+    if (player && player.nextVideo) {
+      player.nextVideo();
+    }
   }
 }
 
@@ -335,7 +345,7 @@ function updatePlayerBarUI() {
     updateOverlayPlaylistQueue();
     updateYouTubeButton();
     updateLyricsToggleButton();
-    setPlayerOverlayVisibility(true);
+    // setPlayerOverlayVisibility(true); // 제거: 곡이 바뀔 때마다 오버레이가 강제로 열리지 않도록 함
     loadLyrics(currentPlayingId);
   }
 }
@@ -693,18 +703,16 @@ function playFromPlaylist(startVideoId) {
   currentPlayingId = startVideoId;
   
   // iOS 대응: 사용자 클릭 이벤트 스택 내에서 즉시 playVideo를 호출해야 함
-  // loadPlaylist는 내부적으로 비동기 처리가 강해 차단될 확률이 높음
   player.loadPlaylist({
     playlist: videoIds,
     index: startIndex,
   });
   
   player.setShuffle(false);
-  
-  // 강제 재생 시도
   player.playVideo();
   
   updatePlayerBarUI();
+  setPlayerOverlayVisibility(true); // 수동 재생 시에만 오버레이 열기
 }
 
 // 비디오 재생/일시정지 토글
