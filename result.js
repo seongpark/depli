@@ -18,6 +18,9 @@ let currentPlayingId = null;
 let progressInterval;
 let syncedLyricsLines = [];
 let activeLyricIndex = -1;
+let lyricsEnabled = true;
+let lyricsAvailable = false;
+let isPlaylistExpanded = false;
 
 // YouTube API 스크립트 로드
 const tag = document.createElement("script");
@@ -127,6 +130,7 @@ window.addEventListener("touchend", () => {
 
 function onPlayerStateChange(event) {
   const mainPlayBtn = document.getElementById("mainPlayBtn");
+  const overlayPlayBtn = document.getElementById("overlayPlayBtn");
   
   if (event.data === YT.PlayerState.PLAYING) {
     isPlaying = true;
@@ -134,12 +138,14 @@ function onPlayerStateChange(event) {
       currentPlayingId = player.getVideoData().video_id;
       updatePlayerBarUI();
     }
-    if (mainPlayBtn) mainPlayBtn.className = "fa-solid fa-pause";
+    if (mainPlayBtn) mainPlayBtn.className = "fa-solid fa-pause fa-fw";
+    if (overlayPlayBtn) overlayPlayBtn.className = "fa-solid fa-pause fa-fw";
     updatePlayButtons();
     startProgressTimer();
   } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
     isPlaying = false;
-    if (mainPlayBtn) mainPlayBtn.className = "fa-solid fa-play";
+    if (mainPlayBtn) mainPlayBtn.className = "fa-solid fa-play fa-fw";
+    if (overlayPlayBtn) overlayPlayBtn.className = "fa-solid fa-play fa-fw";
     updatePlayButtons();
     stopProgressTimer();
   }
@@ -162,7 +168,10 @@ function updateProgress() {
     if (duration > 0) {
       const progressPercent = (currentTime / duration) * 100;
       document.getElementById("progressBar").style.width = progressPercent + "%";
+      document.getElementById("overlayProgressBar").style.width = progressPercent + "%";
     }
+    document.getElementById("currentTimeLabel").innerText = formatTime(currentTime);
+    document.getElementById("durationLabel").innerText = formatTime(duration);
     updateActiveLyric(currentTime);
   }
 }
@@ -182,6 +191,127 @@ document.getElementById("progressContainer").addEventListener("click", function(
   }
 });
 
+document.getElementById("overlayProgressContainer").addEventListener("click", function(e) {
+  if (player && player.getDuration) {
+    const rect = this.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const width = rect.width;
+    const duration = player.getDuration();
+    if (duration > 0) {
+      const seekTo = (x / width) * duration;
+      player.seekTo(seekTo, true);
+      updateProgress();
+    }
+  }
+});
+
+function formatTime(seconds) {
+  if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = Math.floor(seconds % 60);
+  return `${minutes}:${String(remainingSeconds).padStart(2, "0")}`;
+}
+
+function updateLyricsToggleButton() {
+  const lyricsToggleBtn = document.getElementById("lyricsToggleBtn");
+  if (!lyricsToggleBtn) return;
+
+  const isUnavailable = !lyricsAvailable;
+  lyricsToggleBtn.disabled = isUnavailable;
+  lyricsToggleBtn.classList.toggle("is-off", !lyricsEnabled || isUnavailable);
+  lyricsToggleBtn.setAttribute("aria-label", lyricsEnabled ? "가사 끄기" : "가사 켜기");
+  lyricsToggleBtn.setAttribute("aria-pressed", String(lyricsEnabled));
+  lyricsToggleBtn.style.opacity = isUnavailable ? "0.2" : "";
+  lyricsToggleBtn.style.pointerEvents = isUnavailable ? "none" : "auto";
+}
+
+function updateYouTubeButton() {
+  const openYoutubeBtn = document.getElementById("openYoutubeBtn");
+  if (!openYoutubeBtn) return;
+
+  const isDisabled = !currentPlayingId;
+  openYoutubeBtn.disabled = isDisabled;
+  openYoutubeBtn.setAttribute("aria-disabled", String(isDisabled));
+}
+
+function updateOverlayPlaylistQueue() {
+  const overlayPlaylist = document.getElementById("overlayPlaylist");
+  if (!overlayPlaylist) return;
+  const metaContainer = overlayPlaylist.closest(".overlay-playlist-meta");
+
+  overlayPlaylist.innerHTML = "";
+  overlayPlaylist.classList.toggle("expanded", isPlaylistExpanded);
+  if (metaContainer) metaContainer.classList.toggle("is-expanded", isPlaylistExpanded);
+
+  const currentIndex = currentPlaylist.findIndex(song => song.id === currentPlayingId);
+  const upcomingSongs = currentIndex >= 0 ? currentPlaylist.slice(currentIndex + 1) : [];
+
+  if (upcomingSongs.length === 0) {
+    const emptyMessage = document.createElement("div");
+    emptyMessage.className = "overlay-playlist-empty";
+    emptyMessage.innerText = "다음 곡이 없습니다";
+    overlayPlaylist.appendChild(emptyMessage);
+    return;
+  }
+
+  // 표시할 노래들 결정
+  const songsToDisplay = isPlaylistExpanded ? upcomingSongs : [upcomingSongs[0]];
+
+  songsToDisplay.forEach((song, index) => {
+    const item = document.createElement("div");
+    item.className = "overlay-playlist-item";
+    item.onclick = () => playFromPlaylist(song.id);
+    item.style.cursor = "pointer";
+    
+    let content = `
+      <img src="${song.cover}" alt="${song.title} 앨범 커버" class="overlay-playlist-cover" />
+      <div class="overlay-playlist-text">
+        <div class="overlay-playlist-title">${song.title}</div>
+        <div class="overlay-playlist-subtitle">${song.album} · ${song.year}</div>
+      </div>
+    `;
+
+    // 첫 번째 항목에만 펼치기/접기 버튼 추가 (더 보기가 가능한 경우)
+    if (index === 0 && upcomingSongs.length > 1) {
+      content += `
+        <button type="button" class="playlist-toggle-btn" onclick="togglePlaylistExpansion(event)" aria-label="${isPlaylistExpanded ? '접기' : '펼치기'}">
+          <i class="fa-solid fa-chevron-${isPlaylistExpanded ? 'up' : 'down'}"></i>
+        </button>
+      `;
+    }
+
+    item.innerHTML = content;
+    overlayPlaylist.appendChild(item);
+  });
+}
+
+function togglePlaylistExpansion(e) {
+  if (e) e.stopPropagation();
+  isPlaylistExpanded = !isPlaylistExpanded;
+  updateOverlayPlaylistQueue();
+}
+
+function syncLyricsContainerVisibility() {
+  const lyricsContainer = document.getElementById("lyricsContainer");
+  const largeAlbumArt = document.getElementById("largeAlbumArt");
+  if (!lyricsContainer) return;
+  const shouldShowLyrics = lyricsEnabled && lyricsAvailable;
+  lyricsContainer.style.display = shouldShowLyrics ? "block" : "none";
+  lyricsContainer.style.background = shouldShowLyrics ? "rgba(6, 8, 12, 0.24)" : "transparent";
+  if (largeAlbumArt) {
+    largeAlbumArt.classList.toggle("lyrics-active", shouldShowLyrics);
+  }
+}
+
+function setPlayerOverlayVisibility(isVisible) {
+  const overlay = document.getElementById("playerOverlay");
+  if (!overlay) return;
+
+  overlay.classList.toggle("show", isVisible);
+  overlay.setAttribute("aria-hidden", String(!isVisible));
+  document.body.classList.toggle("player-overlay-open", isVisible);
+}
+
 // 상단 플레이어 바 UI 업데이트
 function updatePlayerBarUI() {
   const currentSong = currentPlaylist.find(s => s.id === currentPlayingId);
@@ -190,8 +320,15 @@ function updatePlayerBarUI() {
     setRemakeButtonVisibility(false);
     document.getElementById("currentCover").src = currentSong.cover;
     document.getElementById("largeAlbumArt").src = currentSong.cover;
+    document.getElementById("lyricsContainer").style.setProperty("--lyrics-cover", `url("${currentSong.cover}")`);
     document.getElementById("currentTitle").innerText = currentSong.title;
     document.getElementById("currentAlbum").innerText = `${currentSong.album} · ${currentSong.year}`;
+    document.getElementById("overlayTitle").innerText = currentSong.title;
+    document.getElementById("overlayAlbum").innerText = `${currentSong.album} · ${currentSong.year}`;
+    updateOverlayPlaylistQueue();
+    updateYouTubeButton();
+    updateLyricsToggleButton();
+    setPlayerOverlayVisibility(true);
     loadLyrics(currentPlayingId);
   }
 }
@@ -205,9 +342,11 @@ async function loadLyrics(videoId) {
 
   syncedLyricsLines = [];
   activeLyricIndex = -1;
+  lyricsAvailable = false;
+  updateLyricsToggleButton();
   lyricsContainer.classList.remove("plain-lyrics");
-  setLyricsContainerVisibility(true);
   lyricsContainer.innerText = "가사를 불러오는 중...";
+  syncLyricsContainerVisibility();
 
   try {
     // LRCLIB API 사용 (검색 쿼리: 노래 제목 + 아티스트)
@@ -242,21 +381,27 @@ async function loadLyrics(videoId) {
 }
 
 function setLyricsContainerVisibility(isVisible) {
-  const lyricsContainer = document.getElementById("lyricsContainer");
-  const largeAlbumArt = document.getElementById("largeAlbumArt");
-  if (!lyricsContainer) return;
-  lyricsContainer.style.display = isVisible ? "block" : "none";
-  if (largeAlbumArt) {
-    largeAlbumArt.style.marginBottom = isVisible ? "20px" : "0";
-  }
+  lyricsAvailable = isVisible;
+  syncLyricsContainerVisibility();
+  updateLyricsToggleButton();
 }
 
 function hideLyricsContainer(lyricsContainer) {
   syncedLyricsLines = [];
   activeLyricIndex = -1;
+  lyricsAvailable = false;
   lyricsContainer.classList.remove("plain-lyrics");
   lyricsContainer.innerHTML = "";
-  setLyricsContainerVisibility(false);
+  syncLyricsContainerVisibility();
+  updateLyricsToggleButton();
+}
+
+function createLyricsTrack(lyricsContainer) {
+  lyricsContainer.innerHTML = "";
+  const track = document.createElement("div");
+  track.className = "lyrics-track";
+  lyricsContainer.appendChild(track);
+  return track;
 }
 
 function parseSyncedLyrics(syncedLyrics) {
@@ -282,6 +427,7 @@ function parseSyncedLyrics(syncedLyrics) {
 function renderSyncedLyrics(syncedLyrics, lyricsContainer) {
   syncedLyricsLines = parseSyncedLyrics(syncedLyrics);
   activeLyricIndex = -1;
+  lyricsAvailable = true;
   lyricsContainer.classList.remove("plain-lyrics");
 
   if (syncedLyricsLines.length === 0) {
@@ -290,23 +436,25 @@ function renderSyncedLyrics(syncedLyrics, lyricsContainer) {
   }
 
   setLyricsContainerVisibility(true);
-  lyricsContainer.innerHTML = "";
+  const track = createLyricsTrack(lyricsContainer);
 
   syncedLyricsLines.forEach((line, index) => {
     const lineElement = document.createElement("div");
     lineElement.className = "lyric-line";
     lineElement.dataset.index = String(index);
     lineElement.textContent = line.text;
-    lyricsContainer.appendChild(lineElement);
+    track.appendChild(lineElement);
   });
+  updateLyricsToggleButton();
 }
 
 function renderPlainLyrics(plainLyrics, lyricsContainer) {
   syncedLyricsLines = [];
   activeLyricIndex = -1;
+  lyricsAvailable = true;
   lyricsContainer.classList.add("plain-lyrics");
   setLyricsContainerVisibility(true);
-  lyricsContainer.innerHTML = "";
+  const track = createLyricsTrack(lyricsContainer);
 
   plainLyrics
     .split("\n")
@@ -316,8 +464,9 @@ function renderPlainLyrics(plainLyrics, lyricsContainer) {
       const lineElement = document.createElement("div");
       lineElement.className = "lyric-line";
       lineElement.textContent = line;
-      lyricsContainer.appendChild(lineElement);
+      track.appendChild(lineElement);
     });
+  updateLyricsToggleButton();
 }
 
 function updateActiveLyric(currentTime) {
@@ -335,6 +484,7 @@ function updateActiveLyric(currentTime) {
 
   if (nextActiveIndex === activeLyricIndex) return;
 
+  const isInitialScroll = activeLyricIndex === -1;
   const previousActive = lyricsContainer.querySelector(".lyric-line.active");
   if (previousActive) {
     previousActive.classList.remove("active");
@@ -348,9 +498,17 @@ function updateActiveLyric(currentTime) {
   if (!currentLine) return;
 
   currentLine.classList.add("active");
-  currentLine.scrollIntoView({
-    behavior: "smooth",
-    block: "center",
+  requestAnimationFrame(() => {
+    const targetScrollTop =
+      currentLine.offsetTop -
+      lyricsContainer.clientHeight / 2 +
+      currentLine.clientHeight / 2;
+    const maxScrollTop = lyricsContainer.scrollHeight - lyricsContainer.clientHeight;
+
+    lyricsContainer.scrollTo({
+      top: Math.max(0, Math.min(targetScrollTop, maxScrollTop)),
+      behavior: isInitialScroll ? "auto" : "smooth",
+    });
   });
 }
 
@@ -359,17 +517,11 @@ function updatePlayButtons() {
   allPlayButtons.forEach(btn => {
     const videoId = btn.getAttribute("data-video-id");
     if (videoId === currentPlayingId && isPlaying) {
-      btn.innerHTML = `<i class="fa-solid fa-pause"></i>`;
+      btn.innerHTML = `<i class="fa-solid fa-pause fa-fw"></i>`;
     } else {
-      btn.innerHTML = `<i class="fa-solid fa-play"></i>`;
+      btn.innerHTML = `<i class="fa-solid fa-play fa-fw"></i>`;
     }
   });
-}
-
-function setPlayerBarCoverVisibility(isVisible) {
-  const currentCover = document.getElementById("currentCover");
-  if (!currentCover) return;
-  currentCover.style.display = isVisible ? "block" : "none";
 }
 
 function setRemakeButtonVisibility(isVisible) {
@@ -378,30 +530,11 @@ function setRemakeButtonVisibility(isVisible) {
   remakeButton.style.display = isVisible ? "" : "none";
 }
 
-// 플레이어 바 클릭 시 큰 앨범 아트 토글
+// 플레이어 바 클릭 시 오버레이 플레이어 열기
 document.getElementById("playerBar").addEventListener("click", function(e) {
-  // 제어 버튼이나 재생바를 클릭한 경우에는 토글하지 않음
+  // 제어 버튼이나 재생바를 클릭한 경우에는 열지 않음
   if (e.target.closest(".player-controls") || e.target.closest(".progress-container")) return;
-  
-  const container = document.getElementById("albumArtContainer");
-  if (container.classList.contains("show")) {
-    container.classList.remove("show");
-    setPlayerBarCoverVisibility(true);
-    setTimeout(() => {
-      if (!container.classList.contains("show")) {
-        container.style.display = "none";
-      }
-    }, 300); // transition 시간과 동일하게 설정
-  } else {
-    container.style.display = "flex";
-    setPlayerBarCoverVisibility(false);
-    // display: flex가 적용된 직후에는 transition이 작동하지 않으므로 rAF 사용
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        container.classList.add("show");
-      });
-    });
-  }
+  if (currentPlayingId) setPlayerOverlayVisibility(true);
 });
 
 // 배열 랜덤 섞기 함수
@@ -535,13 +668,30 @@ function createSongElement(song) {
       </div>
     </div>
     <div style="margin-left: auto;">
-      <button onclick="toggleVideo('${song.id}')" class="play" data-video-id="${song.id}"><i class="fa-solid fa-play"></i></button>
+      <button onclick="toggleVideo('${song.id}')" class="play" data-video-id="${song.id}"><i class="fa-solid fa-play fa-fw"></i></button>
     </div>
   `;
   return songDiv;
 }
 
 displayFilteredSongs();
+
+function playFromPlaylist(startVideoId) {
+  if (!player || currentPlaylist.length === 0) return;
+
+  const startIndex = currentPlaylist.findIndex(song => song.id === startVideoId);
+  if (startIndex < 0) return;
+
+  const videoIds = currentPlaylist.map(song => song.id);
+  currentPlayingId = startVideoId;
+  player.loadPlaylist({
+    playlist: videoIds,
+    index: startIndex,
+  });
+  player.setShuffle(false);
+  player.playVideo();
+  updatePlayerBarUI();
+}
 
 // 비디오 재생/일시정지 토글
 function toggleVideo(videoId) {
@@ -554,10 +704,7 @@ function toggleVideo(videoId) {
       player.playVideo();
     }
   } else {
-    currentPlayingId = videoId;
-    player.loadVideoById(videoId);
-    player.playVideo();
-    updatePlayerBarUI();
+    playFromPlaylist(videoId);
   }
 }
 
@@ -571,7 +718,20 @@ document.getElementById("mainPlayBtn").addEventListener("click", function() {
   }
 });
 
+document.getElementById("overlayPlayBtn").addEventListener("click", function() {
+  if (!player) return;
+  if (isPlaying) {
+    player.pauseVideo();
+  } else {
+    player.playVideo();
+  }
+});
+
 document.getElementById("nextBtn").addEventListener("click", function() {
+  if (player && player.nextVideo) player.nextVideo();
+});
+
+document.getElementById("overlayNextBtn").addEventListener("click", function() {
   if (player && player.nextVideo) player.nextVideo();
 });
 
@@ -579,16 +739,39 @@ document.getElementById("prevBtn").addEventListener("click", function() {
   if (player && player.previousVideo) player.previousVideo();
 });
 
+document.getElementById("overlayPrevBtn").addEventListener("click", function() {
+  if (player && player.previousVideo) player.previousVideo();
+});
+
+document.getElementById("lyricsToggleBtn").addEventListener("click", function() {
+  lyricsEnabled = !lyricsEnabled;
+  updateLyricsToggleButton();
+  syncLyricsContainerVisibility();
+});
+
+document.getElementById("openYoutubeBtn").addEventListener("click", function() {
+  if (!currentPlayingId) return;
+  window.open(`https://www.youtube.com/watch?v=${currentPlayingId}`, "_blank", "noopener,noreferrer");
+});
+
+document.getElementById("minimizePlayerBtn").addEventListener("click", function() {
+  setPlayerOverlayVisibility(false);
+});
+
 document.getElementById("closePlayerBtn").addEventListener("click", function() {
   if (player) {
     player.stopVideo();
     document.getElementById("playerBar").style.display = "none";
     setRemakeButtonVisibility(true);
-    const container = document.getElementById("albumArtContainer");
-    container.classList.remove("show");
-    container.style.display = "none";
-    setPlayerBarCoverVisibility(true);
+    setPlayerOverlayVisibility(false);
+    document.getElementById("progressBar").style.width = "0%";
+    document.getElementById("overlayProgressBar").style.width = "0%";
+    document.getElementById("currentTimeLabel").innerText = "0:00";
+    document.getElementById("durationLabel").innerText = "0:00";
     currentPlayingId = null;
+    lyricsAvailable = false;
+    syncLyricsContainerVisibility();
+    updateYouTubeButton();
     updatePlayButtons();
   }
 });
@@ -597,12 +780,7 @@ document.getElementById("closePlayerBtn").addEventListener("click", function() {
 document.getElementById("playAllInternal").addEventListener("click", function() {
   if (!isApiLoaded || !player || currentPlaylist.length === 0) return;
   
-  const videoIds = currentPlaylist.map(song => song.id);
-  currentPlayingId = videoIds[0];
-  player.loadPlaylist(videoIds);
-  player.setShuffle(false);
-  player.playVideo();
-  updatePlayerBarUI();
+  playFromPlaylist(currentPlaylist[0].id);
 });
 
 // 유튜브로 내보내기 모달
@@ -633,3 +811,6 @@ async function exportToYouTube(type) {
 
 document.getElementById("exportAll").addEventListener("click", () => exportToYouTube("all"));
 document.getElementById("exportExact").addEventListener("click", () => exportToYouTube("exact"));
+
+updateLyricsToggleButton();
+updateYouTubeButton();
