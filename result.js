@@ -320,6 +320,12 @@ function updatePlayerBarUI() {
     setRemakeButtonVisibility(false);
     document.getElementById("currentCover").src = currentSong.cover;
     document.getElementById("largeAlbumArt").src = currentSong.cover;
+    
+    const overlay = document.getElementById("playerOverlay");
+    if (overlay) {
+      overlay.style.setProperty("--overlay-bg", `url("${currentSong.cover}")`);
+    }
+    
     document.getElementById("lyricsContainer").style.setProperty("--lyrics-cover", `url("${currentSong.cover}")`);
     document.getElementById("currentTitle").innerText = currentSong.title;
     document.getElementById("currentAlbum").innerText = `${currentSong.album} · ${currentSong.year}`;

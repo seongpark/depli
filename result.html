@@ -117,13 +117,23 @@
         align-items: stretch;
         justify-content: center;
         padding: 0 0 calc(24px + env(safe-area-inset-bottom, 0px));
-        background: rgba(8, 10, 16, 0.94);
-        backdrop-filter: blur(24px);
-        -webkit-backdrop-filter: blur(24px);
+        background: rgb(8, 10, 16); /* 투명도 제거 */
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
         transition: opacity 0.28s ease, visibility 0.28s ease;
+        overflow: hidden;
+      }
+      #playerOverlay::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: var(--overlay-bg);
+        background-size: cover;
+        background-position: center;
+        filter: blur(80px) brightness(0.35);
+        transform: scale(1.2);
+        z-index: -1;
       }
       #playerOverlay.show {
         opacity: 1;
