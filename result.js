@@ -623,6 +623,7 @@ async function displayFilteredSongs() {
   const songListContainer = document.getElementById("songList");
   const similarSongContainer = document.getElementById("similarSong");
   const h2Title = document.querySelector(".container h2.highlight");
+  const keywordSection = document.getElementById("keywordSection");
 
   songDetailAlert.style.display = "none";
   songListContainer.innerHTML = "";
@@ -635,10 +636,16 @@ async function displayFilteredSongs() {
   const concertTypes = ["concert", "thepresent25", "foreveryoungfinale", "thepresent24", "welcometotheshow", "thedecade"];
 
   if (concertTypes.includes(pageType)) {
+    // 콘서트 모드: 키워드 섹션 숨기기
+    if (keywordSection) {
+      keywordSection.style.display = "none";
+    }
+
     // 제목 문구 변경
     if (h2Title) {
       h2Title.innerHTML = `콘서트의 감동을<br /><span style="color: #57c3c5">다시 한번</span> 돌아보기`;
     }
+    // ... rest of concert mode logic
 
     // 콘서트 모드: 타입에 따라 다른 세트리스트 필드 선택
     let setlistStr = "";
