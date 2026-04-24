@@ -197,6 +197,7 @@
       @media (min-width: 420px) {
         .overlay-song-meta {
           padding: 0;
+          margin-top: 25px;
         }
       }
       .overlay-song-album-row {
@@ -427,7 +428,8 @@
           padding: 12px 0;
         }
       }
-      /* 좁은 너비에서만 레이아웃 박스로 쓰고, 그 외에는 자식이 .overlay-shell 플렉스에 직접 참여 */
+      /* 좁은 너비: 기본 display:contents → max-width 미디어에서 플렉스 박스로 전환.
+         넓은 너비: 스택이 곡 정보~플레이리스트 사이를 채우고, 안쪽은 가상 요소로 재생줄을 볼륨 위까지 세로 중앙 */
       .overlay-control-stack {
         display: contents;
       }
@@ -437,14 +439,49 @@
         justify-content: center;
         gap: 44px;
         width: 100%;
-        margin-top: auto;
-        margin-bottom: 20px;
+        margin-top: 0;
+        margin-bottom: 0;
         padding: 0 24px;
         transition: padding 0.3s ease;
       }
       @media (min-width: 420px) {
+        .overlay-control-stack {
+          display: flex;
+          flex-direction: column;
+          flex: 1 1 0;
+          min-height: 0;
+        }
+        .overlay-control-stack-inner {
+          display: flex;
+          flex-direction: column;
+          flex: 1 1 0;
+          min-height: 0;
+          width: 100%;
+        }
+        /* 재생 컨트롤만 앨범 정보 아래~볼륨 슬라이더 위 사이에서 수직 중앙 (::before·::after가 동일 flex-grow로 여백 분할) */
+        .overlay-control-stack-inner::before,
+        .overlay-control-stack-inner::after {
+          content: "";
+          flex: 1 1 0;
+          min-height: 0;
+        }
+        .overlay-control-stack-inner::before {
+          order: 1;
+        }
+        .overlay-control-stack .overlay-main-controls {
+          order: 2;
+        }
+        .overlay-control-stack-inner::after {
+          order: 3;
+        }
+        .overlay-control-stack .volume-container {
+          order: 4;
+          margin-top: 0;
+          flex-shrink: 0;
+        }
         .overlay-main-controls {
           padding: 0;
+          flex-shrink: 0;
         }
       }
       .overlay-main-controls i {
@@ -547,6 +584,7 @@
           padding-top: 0;
         }
         .overlay-song-meta {
+          margin-top: 10px;
           margin-bottom: 0;
         }
         .overlay-song-title {
@@ -555,8 +593,8 @@
         .overlay-playlist-meta {
           margin: 1px 0;
         }
-        .overlay-main-controls {
-          margin: 10px 0;
+        .overlay-control-stack .overlay-main-controls {
+          margin: 0;
           gap: 30px;
         }
         .overlay-sub-controls {
