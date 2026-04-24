@@ -143,7 +143,8 @@
       .overlay-shell {
         width: 100%;
         max-width: 420px;
-        min-height: 100%;
+        flex: 1 1 auto;
+        min-height: 0;
         display: flex;
         flex-direction: column;
         align-items: stretch;
@@ -188,12 +189,24 @@
       .overlay-song-meta {
         width: 100%;
         text-align: center;
-        margin-bottom: 10px;
+        margin-top: 50px;
+        margin-bottom: 0;
         padding: 0 24px;
         transition: padding 0.3s ease;
       }
       @media (min-width: 420px) {
         .overlay-song-meta {
+          padding: 0;
+        }
+      }
+      .overlay-song-album-row {
+        width: 100%;
+        text-align: center;
+        padding: 0 24px;
+        transition: padding 0.3s ease;
+      }
+      @media (min-width: 420px) {
+        .overlay-song-album-row {
           padding: 0;
         }
       }
@@ -204,18 +217,13 @@
       }
       .overlay-song-album {
         margin-top: 6px;
-        margin-bottom: 15px; /* 15px로 조정 */
+        margin-bottom: 0;
         font-size: 12px;
         color: rgba(255, 255, 255, 0.72);
         transition: margin-bottom 0.3s ease;
       }
-      @media (min-width: 420px) {
-        .overlay-song-album {
-          margin-bottom: 0; /* 넓은 화면에서는 제거 */
-        }
-      }
       .overlay-playlist-meta {
-        margin-top: 10px;
+        margin: 1px 0;
         position: relative;
         text-align: left;
         padding: 0 24px;
@@ -306,7 +314,7 @@
       }
       .overlay-progress-wrap {
         width: 100%;
-        margin-bottom: 18px;
+        margin-bottom: 0;
         padding: 0;
       }
       .overlay-progress-meta {
@@ -419,13 +427,18 @@
           padding: 12px 0;
         }
       }
+      /* 좁은 너비에서만 레이아웃 박스로 쓰고, 그 외에는 자식이 .overlay-shell 플렉스에 직접 참여 */
+      .overlay-control-stack {
+        display: contents;
+      }
       .overlay-main-controls {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 44px;
         width: 100%;
-        margin: auto 0; /* 수직 중앙 정렬 */
+        margin-top: auto;
+        margin-bottom: 20px;
         padding: 0 24px;
         transition: padding 0.3s ease;
       }
@@ -534,16 +547,13 @@
           padding-top: 0;
         }
         .overlay-song-meta {
-          margin-bottom: 10px;
-        }
-        .overlay-song-album {
           margin-bottom: 0;
         }
         .overlay-song-title {
           font-size: 18px;
         }
         .overlay-playlist-meta {
-          margin-top: 5px;
+          margin: 1px 0;
         }
         .overlay-main-controls {
           margin: 10px 0;
@@ -556,6 +566,35 @@
       @media (hover: none) and (pointer: coarse) {
         .volume-container {
           display: none;
+        }
+      }
+      .overlay-control-stack-inner {
+        display: contents;
+      }
+      @media (max-width: 419px) {
+        /* 앨범 아래~다음 재생 사이 남는 높이를 채우고, 재생+볼륨 묶음을 세로 중앙 */
+        .overlay-control-stack {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: stretch;
+          flex: 1 1 0;
+          min-height: 0;
+        }
+        .overlay-control-stack-inner {
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          gap: 12px;
+          width: 100%;
+          flex: 0 0 auto;
+        }
+        .overlay-control-stack .overlay-main-controls {
+          margin-top: 0;
+          margin-bottom: 0;
+        }
+        .overlay-control-stack .volume-container {
+          margin-top: 0;
         }
       }
     </style>
@@ -647,25 +686,32 @@
           </div>
           <div class="overlay-song-meta">
             <div id="overlayTitle" class="overlay-song-title">재생 중인 곡이 없습니다</div>
+          </div>
+          <div class="overlay-song-album-row">
             <div id="overlayAlbum" class="overlay-song-album">플레이리스트를 시작해보세요</div>
           </div>
+          <div class="overlay-control-stack">
+            <div class="overlay-control-stack-inner">
+              <div class="overlay-main-controls">
+                <i class="fa-solid fa-backward-step" id="overlayPrevBtn"></i>
+                <i class="fa-solid fa-play fa-fw" id="overlayPlayBtn"></i>
+                <i class="fa-solid fa-forward-step" id="overlayNextBtn"></i>
+              </div>
+
+              <div class="volume-container">
+                <i class="fa-solid fa-volume-high" id="volumeIcon"></i>
+                <div class="volume-slider-container" id="volumeSliderContainer">
+                  <div class="volume-slider-bar" id="volumeSliderBar">
+                    <div class="volume-knob"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="overlay-playlist-meta">
             <div class="overlay-playlist-label">다음 재생</div>
             <div id="overlayPlaylist" class="overlay-playlist-list"></div>
-          </div>
-          <div class="overlay-main-controls">
-            <i class="fa-solid fa-backward-step" id="overlayPrevBtn"></i>
-            <i class="fa-solid fa-play fa-fw" id="overlayPlayBtn"></i>
-            <i class="fa-solid fa-forward-step" id="overlayNextBtn"></i>
-          </div>
-
-          <div class="volume-container">
-            <i class="fa-solid fa-volume-high" id="volumeIcon"></i>
-            <div class="volume-slider-container" id="volumeSliderContainer">
-              <div class="volume-slider-bar" id="volumeSliderBar">
-                <div class="volume-knob"></div>
-              </div>
-            </div>
           </div>
 
           <div class="overlay-sub-controls">
