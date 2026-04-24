@@ -258,6 +258,9 @@ function updateOverlayPlaylistQueue() {
   const upcomingSongs = currentIndex >= 0 ? currentPlaylist.slice(currentIndex + 1) : [];
 
   if (upcomingSongs.length === 0) {
+    isPlaylistExpanded = false;
+    overlayPlaylist.classList.remove("expanded");
+    if (metaContainer) metaContainer.classList.remove("is-expanded");
     const emptyMessage = document.createElement("div");
     emptyMessage.className = "overlay-playlist-empty";
     emptyMessage.innerText = "다음 곡이 없습니다";
@@ -298,8 +301,41 @@ function updateOverlayPlaylistQueue() {
 
 function togglePlaylistExpansion(e) {
   if (e) e.stopPropagation();
-  isPlaylistExpanded = !isPlaylistExpanded;
+  const playlist = document.getElementById("overlayPlaylist");
+  if (!playlist) {
+    isPlaylistExpanded = !isPlaylistExpanded;
+    updateOverlayPlaylistQueue();
+    return;
+  }
+
+  if (isPlaylistExpanded) {
+    playlist.classList.remove("playlist-no-vt--expanding");
+    playlist.classList.add("playlist-no-vt--collapsing");
+    const onCollapseEnd = (ev) => {
+      if (ev.target !== playlist || !String(ev.animationName).includes("playlistNoVtCollapse")) return;
+      playlist.removeEventListener("animationend", onCollapseEnd);
+      playlist.classList.remove("playlist-no-vt--collapsing");
+      isPlaylistExpanded = false;
+      updateOverlayPlaylistQueue();
+    };
+    playlist.addEventListener("animationend", onCollapseEnd);
+    return;
+  }
+
+  isPlaylistExpanded = true;
   updateOverlayPlaylistQueue();
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      playlist.classList.remove("playlist-no-vt--collapsing");
+      playlist.classList.add("playlist-no-vt--expanding");
+      const onExpandEnd = (ev) => {
+        if (ev.target !== playlist || !String(ev.animationName).includes("playlistNoVtExpand")) return;
+        playlist.removeEventListener("animationend", onExpandEnd);
+        playlist.classList.remove("playlist-no-vt--expanding");
+      };
+      playlist.addEventListener("animationend", onExpandEnd);
+    });
+  });
 }
 
 function syncLyricsContainerVisibility() {
@@ -779,6 +815,76 @@ document.getElementById("openYoutubeBtn").addEventListener("click", function() {
 document.getElementById("minimizePlayerBtn").addEventListener("click", function() {
   setPlayerOverlayVisibility(false);
 });
+
+(function bindOverlayCoverSwipeToDismiss() {
+  const coverWrap = document.querySelector(".overlay-cover-wrap");
+  const overlay = document.getElementById("playerOverlay");
+  if (!coverWrap || !overlay) return;
+
+  const minDy = 64;
+  const minDominance = 1.15;
+
+  let startY = 0;
+  let startX = 0;
+  let tracking = false;
+
+  function overlayIsOpen() {
+    return overlay.classList.contains("show");
+  }
+
+  function lyricsVisible() {
+    const el = document.getElementById("lyricsContainer");
+    if (!el) return false;
+    return window.getComputedStyle(el).display !== "none";
+  }
+
+  coverWrap.addEventListener(
+    "touchstart",
+    (e) => {
+      if (!overlayIsOpen()) return;
+      if (e.target.closest("#minimizePlayerBtn")) return;
+      const lyricsEl = document.getElementById("lyricsContainer");
+      if (lyricsEl && lyricsVisible() && e.target.closest("#lyricsContainer")) {
+        if (lyricsEl.scrollTop > 20) return;
+      }
+      tracking = true;
+      startY = e.touches[0].clientY;
+      startX = e.touches[0].clientX;
+    },
+    { passive: true }
+  );
+
+  coverWrap.addEventListener(
+    "touchmove",
+    (e) => {
+      if (!tracking) return;
+      const lyricsEl = document.getElementById("lyricsContainer");
+      if (lyricsEl && lyricsVisible() && e.target.closest("#lyricsContainer")) {
+        if (lyricsEl.scrollTop > 24) tracking = false;
+      }
+    },
+    { passive: true }
+  );
+
+  coverWrap.addEventListener(
+    "touchend",
+    (e) => {
+      if (!tracking) return;
+      const t = e.changedTouches[0];
+      const dy = t.clientY - startY;
+      const dx = Math.abs(t.clientX - startX);
+      tracking = false;
+      if (dy < minDy) return;
+      if (dy < dx * minDominance) return;
+      setPlayerOverlayVisibility(false);
+    },
+    { passive: true }
+  );
+
+  coverWrap.addEventListener("touchcancel", () => {
+    tracking = false;
+  });
+})();
 
 document.getElementById("closePlayerBtn").addEventListener("click", function() {
   if (player) {

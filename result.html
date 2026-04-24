@@ -117,7 +117,7 @@
         align-items: stretch;
         justify-content: center;
         padding: 0 0 24px;
-        background: rgb(8, 10, 16); /* 투명도 제거 */
+        background: rgb(0, 0, 0);
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
@@ -230,6 +230,33 @@
         padding: 0 24px;
         transition: padding 0.3s ease;
       }
+      /* 펼침·접힘: 리스트만 애니메이션 (스냅샷 이중 노출 방지) */
+      #overlayPlaylist.playlist-no-vt--expanding {
+        animation: playlistNoVtExpand 0.46s cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
+      #overlayPlaylist.playlist-no-vt--collapsing {
+        animation: playlistNoVtCollapse 0.38s cubic-bezier(0.4, 0, 0.9, 1) both;
+      }
+      @keyframes playlistNoVtExpand {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes playlistNoVtCollapse {
+        from {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        to {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+      }
       @media (min-width: 420px) {
         .overlay-playlist-meta {
           padding: 0;
@@ -249,10 +276,39 @@
         max-height: 92px;
         overflow-y: auto;
         scrollbar-width: none;
-        transition: max-height 0.3s ease;
+        transition: max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 0.32s ease;
       }
       .overlay-playlist-list.expanded {
         max-height: 220px;
+        mask-image: linear-gradient(to bottom, black calc(100% - 40px), transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom, black calc(100% - 40px), transparent 100%);
+      }
+      /* 다음 재생 펼침(.is-expanded): 곡 제목·앨범·재생 컨트롤·볼륨 숨김, 진행 바 아래는 리스트가 채움 */
+      .overlay-shell:has(.overlay-playlist-meta.is-expanded) .overlay-cover-wrap,
+      .overlay-shell:has(.overlay-playlist-meta.is-expanded) .overlay-progress-wrap {
+        flex-shrink: 0;
+      }
+      .overlay-shell:has(.overlay-playlist-meta.is-expanded) .overlay-song-meta,
+      .overlay-shell:has(.overlay-playlist-meta.is-expanded) .overlay-song-album-row,
+      .overlay-shell:has(.overlay-playlist-meta.is-expanded) .overlay-control-stack,
+      .overlay-shell:has(.overlay-playlist-meta.is-expanded) .overlay-sub-controls {
+        display: none !important;
+      }
+      .overlay-shell:has(.overlay-playlist-meta.is-expanded) .overlay-playlist-meta {
+        flex: 1 1 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+      }
+      .overlay-shell:has(.overlay-playlist-meta.is-expanded) .overlay-playlist-label {
+        display: none !important;
+      }
+      .overlay-shell:has(.overlay-playlist-meta.is-expanded) .overlay-playlist-list.expanded {
+        flex: 1 1 0;
+        min-height: 0;
+        max-height: none;
         mask-image: linear-gradient(to bottom, black calc(100% - 40px), transparent 100%);
         -webkit-mask-image: linear-gradient(to bottom, black calc(100% - 40px), transparent 100%);
       }
@@ -633,6 +689,12 @@
         }
         .overlay-control-stack .volume-container {
           margin-top: 0;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #overlayPlaylist.playlist-no-vt--expanding,
+        #overlayPlaylist.playlist-no-vt--collapsing {
+          animation-duration: 0.01ms !important;
         }
       }
     </style>
