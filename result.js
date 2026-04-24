@@ -7,6 +7,16 @@ for (let i = 1; i <= 3; i++) {
     keywords.push(keyword);
   }
 }
+const selectedKeywordsText = document.getElementById("selectedKeywordsText");
+if (selectedKeywordsText) {
+  if (keywords.length > 0) {
+    selectedKeywordsText.innerHTML = keywords
+      .map((kw) => `<span class="result-keyword">${kw}</span>`)
+      .join("");
+  } else {
+    selectedKeywordsText.textContent = "선택한 키워드";
+  }
+}
 const pageType = urlParams.get("type"); // 'concert', 'thepresent25' 등 여부 확인
 
 // 전역 변수 설정
