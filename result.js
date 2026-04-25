@@ -31,6 +31,7 @@ let activeLyricIndex = -1;
 let lyricsEnabled = true;
 let lyricsAvailable = false;
 let isPlaylistExpanded = false;
+let playbackWatchdogInterval;
 
 // YouTube API 스크립트 로드
 const tag = document.createElement("script");
@@ -157,18 +158,17 @@ function onPlayerStateChange(event) {
     if (overlayPlayBtn) overlayPlayBtn.className = "fa-solid fa-pause fa-fw";
     updatePlayButtons();
     startProgressTimer();
+    startPlaybackWatchdog();
   } else if (event.data === YT.PlayerState.PAUSED) {
     isPlaying = false;
     if (mainPlayBtn) mainPlayBtn.className = "fa-solid fa-play fa-fw";
     if (overlayPlayBtn) overlayPlayBtn.className = "fa-solid fa-play fa-fw";
     updatePlayButtons();
     stopProgressTimer();
+    stopPlaybackWatchdog();
   } else if (event.data === YT.PlayerState.ENDED) {
     isPlaying = false;
-    // 다음 곡으로 자동 넘어가도록 강제 호출 (iOS 대응)
-    if (player && player.nextVideo) {
-      player.nextVideo();
-    }
+    handleTrackEnded();
   }
 }
 
@@ -180,6 +180,15 @@ function startProgressTimer() {
 
 function stopProgressTimer() {
   if (progressInterval) clearInterval(progressInterval);
+}
+
+function startPlaybackWatchdog() {
+  stopPlaybackWatchdog();
+  playbackWatchdogInterval = setInterval(syncPlayerState, 1500);
+}
+
+function stopPlaybackWatchdog() {
+  if (playbackWatchdogInterval) clearInterval(playbackWatchdogInterval);
 }
 
 function updateProgress() {
@@ -194,6 +203,44 @@ function updateProgress() {
     document.getElementById("currentTimeLabel").innerText = formatTime(currentTime);
     document.getElementById("durationLabel").innerText = formatTime(duration);
     updateActiveLyric(currentTime);
+  }
+}
+
+function syncPlayerState() {
+  if (!player || !player.getPlayerState) return;
+
+  const state = player.getPlayerState();
+  const videoData = player.getVideoData ? player.getVideoData() : null;
+  const videoId = videoData && videoData.video_id ? videoData.video_id : null;
+
+  if (videoId && videoId !== currentPlayingId) {
+    currentPlayingId = videoId;
+    updatePlayerBarUI();
+  }
+
+  if (state === YT.PlayerState.PLAYING) {
+    updateProgress();
+    return;
+  }
+
+  if (state === YT.PlayerState.ENDED) {
+    handleTrackEnded();
+  }
+}
+
+function handleTrackEnded() {
+  stopProgressTimer();
+  if (!player || !player.nextVideo) return;
+
+  player.nextVideo();
+  if (player.playVideo) {
+    window.setTimeout(() => {
+      try {
+        player.playVideo();
+      } catch (error) {
+        console.warn("Failed to continue playlist playback:", error);
+      }
+    }, 120);
   }
 }
 
@@ -409,6 +456,7 @@ async function loadLyrics(videoId) {
   updateLyricsToggleButton();
   lyricsContainer.classList.remove("plain-lyrics");
   lyricsContainer.innerText = "가사를 불러오는 중...";
+  resetLyricsViewport(lyricsContainer);
   syncLyricsContainerVisibility();
 
   try {
@@ -449,18 +497,25 @@ function setLyricsContainerVisibility(isVisible) {
   updateLyricsToggleButton();
 }
 
+function resetLyricsViewport(lyricsContainer) {
+  if (!lyricsContainer) return;
+  lyricsContainer.scrollTo({ top: 0, behavior: "auto" });
+}
+
 function hideLyricsContainer(lyricsContainer) {
   syncedLyricsLines = [];
   activeLyricIndex = -1;
   lyricsAvailable = false;
   lyricsContainer.classList.remove("plain-lyrics");
   lyricsContainer.innerHTML = "";
+  resetLyricsViewport(lyricsContainer);
   syncLyricsContainerVisibility();
   updateLyricsToggleButton();
 }
 
 function createLyricsTrack(lyricsContainer) {
   lyricsContainer.innerHTML = "";
+  resetLyricsViewport(lyricsContainer);
   const track = document.createElement("div");
   track.className = "lyrics-track";
   lyricsContainer.appendChild(track);
@@ -555,7 +610,10 @@ function updateActiveLyric(currentTime) {
 
   activeLyricIndex = nextActiveIndex;
 
-  if (activeLyricIndex < 0) return;
+  if (activeLyricIndex < 0) {
+    resetLyricsViewport(lyricsContainer);
+    return;
+  }
 
   const currentLine = lyricsContainer.querySelector(`[data-index="${activeLyricIndex}"]`);
   if (!currentLine) return;
@@ -914,10 +972,20 @@ document.getElementById("closePlayerBtn").addEventListener("click", function() {
     document.getElementById("currentTimeLabel").innerText = "0:00";
     document.getElementById("durationLabel").innerText = "0:00";
     currentPlayingId = null;
+    stopProgressTimer();
+    stopPlaybackWatchdog();
     lyricsAvailable = false;
     syncLyricsContainerVisibility();
     updateYouTubeButton();
     updatePlayButtons();
+  }
+});
+
+document.addEventListener("visibilitychange", function() {
+  if (!document.hidden) {
+    syncPlayerState();
+  } else if (isPlaying) {
+    startPlaybackWatchdog();
   }
 });
 
